@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script
+	src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<link
+	href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<link href="@{/css/signup.css}">
+
+<!------ Include the above in your HEAD tag ---------->
+<head>
+
+<meta charset="UTF-8">
+<title>Sign Up</title>
+</head>
+<body>
+
+	<div class="container" id="wrap" >
+		<div class="row" style="padding-bottom:10px">
+			<div class="col-md-6 col-md-offset-3">
+				<form action="signup" method="post" accept-charset="utf-8" class="form"
+					role="form">
+					<h4>Sign Up</h4>
+					<div class="row" style="padding-bottom:10px">
+						<div class="col-xs-6 col-md-6">
+							<input type="text" name="name" value=""
+								class="form-control input-lg" placeholder="僅限中英文" />
+						</div>
+			
+					</div>
+					<div class="row" style="padding-bottom:10px">
+					<input type="email" name="student_email" value=""
+						class="form-control input-lg" placeholder="Your Email" />
+						</div>
+						<div class="row" style="padding-bottom:10px">
+						<input
+						type="password" name="password" value=""
+						class="form-control input-lg" placeholder="5~16位含大小寫字母數字" />
+						</div>
+					<div class="row" style="padding-bottom:10px">
+						<div class="col-xs-4 col-md-4">
+							<input name="birthday" type="date" />
+						</div>
+						
+					</div>
+					<button class="btn btn-lg btn-primary btn-block signup-btn"
+						type="submit">註冊</button>
+				</form>
+			</div>
+		</div>
+	</div>
+<h1>[[${message}]]</h1>
+</body>
+</html>

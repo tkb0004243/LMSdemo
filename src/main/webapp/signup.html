@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<title>Sign Up</title>
+</head>
+<body>
+<form action="signup" method="post">
+<input name="student_email" type="email" placeholder="輸入信箱">
+<input name="password" type="password" placeholder="請輸入密碼">
+<input name="name" type="text" placeholder="請輸入姓名">
+<span>生日</span><input name="birthday" type="date">
+<input type="submit" name="註冊">
+</form>
+<div>
+<span>${message}</span>
+</div>
+
+</body>
+</html>
