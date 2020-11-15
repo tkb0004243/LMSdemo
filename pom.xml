@@ -18,6 +18,8 @@
 	<properties>
 		<java.version>11</java.version>
 	</properties>
+	
+	
 
 	<dependencies>
 		<dependency>
@@ -68,6 +70,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			
 		</dependency>
 		
 	</dependencies>

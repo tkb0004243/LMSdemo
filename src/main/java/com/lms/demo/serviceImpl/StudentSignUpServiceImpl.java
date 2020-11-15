@@ -11,24 +11,25 @@ import com.lms.demo.util.VertifyRegexUtil;
 public class StudentSignUpServiceImpl implements StudentSignUpService {
 
 	@Override
-	public boolean vertifySignUp(Student newstudent, Model model) {
+	public LoginLog vertifySignUp(Student newstudent) {
 		LoginLog loginlog=new LoginLog();
-		String msg="";
+		String message="";
 		if(!VertifyRegexUtil.matchEmailRegex(newstudent.getStudent_email())) {
-			msg+="名字格式有誤或空白";
+			message+="名字格式有誤或空白";
 		}
 		if(!VertifyRegexUtil.matchNameRegex(newstudent.getName())) {
-			msg+="名字格式有誤或空白 ";
+			message+="名字格式有誤或空白 ";
 		}
 		if(!VertifyRegexUtil.matchPwdRegex(newstudent.getPassword())) {
-			msg+="密碼格式有誤或空白";
+			message+="密碼格式有誤或空白";
 		}
-		if("".equals(msg)) {
-			
-			return true;
+		if("".equals(message)) {
+			loginlog.setStatus(0);
+			return loginlog;
 		}
-		model.addAttribute("message", msg);
-		return false;
+		loginlog.setStatus(1);
+		loginlog.setMessage(message);
+		return loginlog;
 		
 		
 	}

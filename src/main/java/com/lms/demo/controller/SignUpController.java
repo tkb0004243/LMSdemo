@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lms.demo.model.LoginLog;
 import com.lms.demo.model.Student;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.StudentSignUpService;
@@ -23,9 +24,9 @@ public class SignUpController {
 	@Autowired
 	StudentSignUpService studentSignUpService;
 	
-	@GetMapping("/signup")
+	@GetMapping("/login")
 	public String goSignUp() { //get請求跳轉網頁
-		return "signup";
+		return "login";
 		
 	}
 	
@@ -37,13 +38,13 @@ public class SignUpController {
 		newstudent.setVertify_email_time(ts.toString());
 		newstudent.setAuthorities("student");
 		newstudent.setStatus("0");
-		if(studentSignUpService.vertifySignUp(newstudent,model)) {
+		LoginLog loginLog=studentSignUpService.vertifySignUp(newstudent);
+		if(loginLog.getStatus()==0) {
 			studentRepository.save(newstudent);
-			
 			return "login";
 		}
-		return "signup";
-		
-		
+		model.addAttribute("loginLog", loginLog);
+		System.out.println(loginLog.getMessage());
+		return "login";
 	}
 }
