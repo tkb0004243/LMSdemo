@@ -29,10 +29,10 @@ public class Student {
 	@Column(name="birthday")
 	private String birthday;
 	
-	@Column(name="authorities")
+	@Column(name="authorities") //0:student 1:teacher
 	private String authorities;
 	
-	@Column(name="status")
+	@Column(name="status")  //0:normal 1:not vertify
 	private String status;
 	
 	@Column(name="create_time") //SQL內自動產生
@@ -43,9 +43,12 @@ public class Student {
 	
 	@Column(name="vertify_email_time") 
 	private String vertify_email_time;
+	
+	@Column(name="vertifycode") //儲存要比對的驗證碼
+	private String vertifycode;
 
 	public Student(String student_email, String password, String name, String birthday, String authorities,
-			String status, String vertify_email_time) {
+			String status, String vertify_email_time,String vertifycode) {
 		super();
 		this.student_email = student_email;
 		this.password = password;
@@ -54,6 +57,7 @@ public class Student {
 		this.authorities = authorities;
 		this.status = status;
 		this.vertify_email_time = vertify_email_time;
+		this.vertifycode=vertifycode;
 	}
 	
 	public Student() {
@@ -138,6 +142,14 @@ public class Student {
 
 	public void setVertify_email_time(String vertify_email_time) {
 		this.vertify_email_time = vertify_email_time;
+	}
+
+	public String getVertifycode() {
+		return vertifycode;
+	}
+
+	public void setVertifycode(String vertifycode) {
+		this.vertifycode = vertifycode;
 	}
 	
 	
