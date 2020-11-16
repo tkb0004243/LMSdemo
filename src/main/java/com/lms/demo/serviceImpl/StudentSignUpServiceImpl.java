@@ -10,7 +10,7 @@ import com.lms.demo.util.VertifyRegexUtil;
 @Service
 public class StudentSignUpServiceImpl implements StudentSignUpService {
 
-	@Override
+	
 	public LoginLog vertifySignUp(Student newstudent) {
 		LoginLog loginlog=new LoginLog();
 		String message="";

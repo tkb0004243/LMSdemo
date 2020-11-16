@@ -1,6 +1,9 @@
 package com.lms.demo.controller;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,6 +20,7 @@ import com.lms.demo.model.LoginLog;
 import com.lms.demo.model.Student;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.StudentSignUpService;
+import com.lms.demo.util.VertifyCodeMake;
 
 @Controller
 public class SignUpController {
@@ -38,12 +42,16 @@ public class SignUpController {
 	
 	@PostMapping("/signup")
 	public  String createStudent(@ModelAttribute Student newstudent,Model model){
-		Timestamp ts = new Timestamp(System.currentTimeMillis());  
-		String a="2011-05-09 11:49:45";
-		ts=Timestamp.valueOf(a);
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();
+		String dateStringParse = sdf.format(date);
+		ts=Timestamp.valueOf(dateStringParse);
 		newstudent.setVertify_email_time(ts.toString());
 		newstudent.setAuthorities("student");
 		newstudent.setStatus("1");
+		newstudent.setVertifycode(VertifyCodeMake.returnVertifyCode());
 		LoginLog loginLog=studentSignUpService.vertifySignUp(newstudent);
 		if(loginLog.getStatus()==0) {
 			studentRepository.save(newstudent);
