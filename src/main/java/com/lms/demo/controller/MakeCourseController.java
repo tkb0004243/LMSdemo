@@ -16,12 +16,7 @@ public class MakeCourseController {
 	
 	@PostMapping("/createcourse")
 	public String createCourse(@ModelAttribute Course newcourse) {
-		
-		
-		
 		courseRepository.save(newcourse);
-		
-		return "makecourse";
-		
+		return "showcourse";
 	}
 }

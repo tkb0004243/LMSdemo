@@ -14,7 +14,7 @@ public class StudentSignUpServiceImpl implements StudentSignUpService {
 	public LoginLog vertifySignUp(Student newstudent) {
 		LoginLog loginlog=new LoginLog();
 		String message="";
-		if(!VertifyRegexUtil.matchEmailRegex(newstudent.getStudent_email())) {
+		if(!VertifyRegexUtil.matchEmailRegex(newstudent.getEmail())) {
 			message+="名字格式有誤或空白";
 		}
 		if(!VertifyRegexUtil.matchNameRegex(newstudent.getName())) {

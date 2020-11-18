@@ -24,7 +24,7 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 		helper.setFrom("digitalken1127@gmail.com");
-		helper.setTo(newstudent.getStudent_email());
+		helper.setTo(newstudent.getEmail());
 		helper.setSubject("LMS會員驗證信");
 		helper.setText(
 				"<!DOCTYPE html>"
@@ -32,9 +32,9 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 				 +"<body>" 
 				 +"<h1>會員驗證信</h1>"
 				 +"<p>請點選驗證按鈕</p>"
-				 +"<form action='getmail' method='post'>"
-				 +"<input type='hidden' name='student_email' value="+newstudent.getStudent_email()+">"
-				 +"<input type='hidden' name='vertifycode' value="+newstudent.getVertifycode()+">"
+				 +"<form action='http://172.16.131.55:8080/getmail' method='post'>"
+				 +"<input type='hidden' name='student_email' value="+newstudent.getEmail()+">"
+				 +"<input type='hidden' name='vertifycode' value="+newstudent.getVertify_code()+">"
 				 +"<button type='submit'>提交驗證</button>" 
 				 + "</form>"
 				 + "</body>"

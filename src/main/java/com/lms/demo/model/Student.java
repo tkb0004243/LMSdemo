@@ -14,54 +14,67 @@ import javax.persistence.Table;
 public class Student {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="student_id")
+	@Column(name="STUDENT_ID")
 	private Integer student_id;
 	
-	@Column(name="student_email")
-	private String student_email;
+	@Column(name="EMAIL")
+	private String email;
 	
-	@Column(name="password")
+	@Column(name="PASSWORD")
 	private String password;
 	
-	@Column(name="name")
+	@Column(name="NAME")
 	private String name;
 	
-	@Column(name="birthday")
+	@Column(name="BIRTHDAY")
 	private String birthday;
 	
-	@Column(name="authorities") //0:student 1:teacher
+	@Column(name="AUTHORITIES") //0:student 1:teacher
 	private String authorities;
 	
-	@Column(name="status")  //0:normal 1:not vertify
+	@Column(name="STATUS")  //0:normal 1:not vertify
 	private String status;
 	
-	@Column(name="create_time") //SQL內自動產生
+	@Column(name="CREATE_TIME") //SQL內自動產生
 	private String create_time;
 	
-	@Column(name="update_time") //SQL內自動產生
+	@Column(name="UPDATE_TIME") //SQL內自動產生
 	private String update_time;
 	
-	@Column(name="vertify_email_time") 
+	@Column(name="CREATE_BY") 
+	private String create_by;
+	
+	@Column(name="UPDATE_BY") 
+	private String update_by;
+	
+	
+	@Column(name="VERTIFY_EMAIL_TIME") 
 	private String vertify_email_time;
 	
-	@Column(name="vertifycode") //儲存要比對的驗證碼
-	private String vertifycode;
+	@Column(name="VERTIFY_CODE") //儲存要比對的驗證碼
+	private String vertify_code;
 
-	public Student(String student_email, String password, String name, String birthday, String authorities,
-			String status, String vertify_email_time,String vertifycode) {
+	public Student(Integer student_id, String email, String password, String name, String birthday, String authorities,
+			String status, String create_time, String update_time, String create_by, String update_by,
+			String vertify_email_time, String vertify_code) {
 		super();
-		this.student_email = student_email;
+		this.student_id = student_id;
+		this.email = email;
 		this.password = password;
 		this.name = name;
 		this.birthday = birthday;
 		this.authorities = authorities;
 		this.status = status;
+		this.create_time = create_time;
+		this.update_time = update_time;
+		this.create_by = create_by;
+		this.update_by = update_by;
 		this.vertify_email_time = vertify_email_time;
-		this.vertifycode=vertifycode;
+		this.vertify_code = vertify_code;
 	}
-	
+
 	public Student() {
-		
+		super();
 	}
 
 	public Integer getStudent_id() {
@@ -72,12 +85,12 @@ public class Student {
 		this.student_id = student_id;
 	}
 
-	public String getStudent_email() {
-		return student_email;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setStudent_email(String student_email) {
-		this.student_email = student_email;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -136,6 +149,22 @@ public class Student {
 		this.update_time = update_time;
 	}
 
+	public String getCreate_by() {
+		return create_by;
+	}
+
+	public void setCreate_by(String create_by) {
+		this.create_by = create_by;
+	}
+
+	public String getUpdate_by() {
+		return update_by;
+	}
+
+	public void setUpdate_by(String update_by) {
+		this.update_by = update_by;
+	}
+
 	public String getVertify_email_time() {
 		return vertify_email_time;
 	}
@@ -144,13 +173,15 @@ public class Student {
 		this.vertify_email_time = vertify_email_time;
 	}
 
-	public String getVertifycode() {
-		return vertifycode;
+	public String getVertify_code() {
+		return vertify_code;
 	}
 
-	public void setVertifycode(String vertifycode) {
-		this.vertifycode = vertifycode;
+	public void setVertify_code(String vertify_code) {
+		this.vertify_code = vertify_code;
 	}
+
+	
 	
 	
 	

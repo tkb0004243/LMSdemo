@@ -21,6 +21,11 @@ public class GetCentralController {
 		return "user";
 	}
 	
+	@GetMapping("/makecourse")
+	public String goMakeCourse() { 
+		return "makecourse";
+	}
+	
 	
 
 }
