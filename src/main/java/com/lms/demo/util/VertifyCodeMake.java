@@ -8,13 +8,14 @@ public class VertifyCodeMake {
 	public static String returnVertifyCode() {
 		String result="";
 		for(int i=0;i<4;i++) {
-			int r=(int)(Math.random()*36);
+			int r=(int)(Math.random()*35);
 			String x=vertifystr[r];
 			result+=x;
 		}
 		return result;
 		
 	}
+	
 	
 
 }
