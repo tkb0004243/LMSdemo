@@ -42,6 +42,12 @@ public class Teacher {
 	
 	@Column(name="UPDATE_TIME")
 	private String update_time;
+	
+	@Column(name="VERTIFY_TIME")
+	private String vertify_time;
+	
+	@Column(name="VERTIFY_CODE")
+	private String vertify_code;
 
 	public Teacher(Integer teacher_id, String name, String authorities, String email, String password, String status,
 			String create_by, String create_time, String update_by, String update_time) {
@@ -140,6 +146,22 @@ public class Teacher {
 
 	public void setUpdate_time(String update_time) {
 		this.update_time = update_time;
+	}
+
+	public String getVertify_time() {
+		return vertify_time;
+	}
+
+	public void setVertify_time(String vertify_time) {
+		this.vertify_time = vertify_time;
+	}
+
+	public String getVertify_code() {
+		return vertify_code;
+	}
+
+	public void setVertify_code(String vertify_code) {
+		this.vertify_code = vertify_code;
 	}
 	
 }

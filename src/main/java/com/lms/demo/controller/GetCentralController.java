@@ -26,6 +26,12 @@ public class GetCentralController {
 		return "makecourse";
 	}
 	
+	@GetMapping("/adminlogin")
+	public String goAdminlogin() {
+		return "adminlogin";
+		
+	}
+	
 	
 
 }

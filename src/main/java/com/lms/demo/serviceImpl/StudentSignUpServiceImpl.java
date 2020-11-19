@@ -24,10 +24,10 @@ public class StudentSignUpServiceImpl implements StudentSignUpService {
 			message+="密碼格式有誤或空白";
 		}
 		if("".equals(message)) {
-			loginlog.setStatus(0);
+			loginlog.setStatus("0");
 			return loginlog;
 		}
-		loginlog.setStatus(1);
+		loginlog.setStatus("1");
 		loginlog.setMessage(message);
 		return loginlog;
 		

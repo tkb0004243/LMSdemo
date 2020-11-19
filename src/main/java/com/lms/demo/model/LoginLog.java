@@ -1,36 +1,32 @@
 package com.lms.demo.model;
 
-public class LoginLog {
+public class LoginLog extends BaseLog {
 	
-	private Integer status;
-	//正常為0
-	//有問題設1
-	private String message;
+	
+	private Teacher teacher;
+	
+	private Student student;
 
-	public LoginLog(Integer status,String message) {
-		super();
-		this.status=status;
-		this.message = message;
-	}
-	
+
 	public LoginLog() {
 		
 	}
 
-	public String getMessage() {
-		return message;
+	
+	public Teacher getTeacher() {
+		return teacher;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public Student getStudent() {
+		return student;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 }

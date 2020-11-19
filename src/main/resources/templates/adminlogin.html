@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="css/adminlogin.css" rel="stylesheet" type="text/css" />
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+ <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+ <script ></script>
+ <head>
+ 
+ </head>
+ <body>
+ <div class="container">
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 formDesign">
+             
+                   
+
+                <!-- ******* Form Header ******** -->
+                    <div class="formHeader">
+                        <div>                        
+                            <div class="loginHeader formActiveBorder" id="loginfornlink">LMS後台登入</div>                        
+                            <div class="signupHeader" id="signupforlinkm">LMS後台註冊</div>                        
+                        </div>
+                    </div>
+                <!-- ******* End Form Header ******** -->
+
+                <!-- **************  login form ********* -->
+                    <div class="logincontain" id="loginforn">
+                        <form method="post" action="backstage/login">
+                          <div class="form-group">
+                            <!-- user name -->
+                            <input type="email" class="form-control" placeholder="帳號" name="email" id="useremail" required>
+                          </div>
+                          <div class="form-group">
+                            <!-- password -->
+                            <input type="password" class="form-control" placeholder="密碼" name="password" id="password" required>
+                          </div>
+                          <div class="form-group form-check">
+                            <label class="formResetPass">
+                            <!-- Reset password -->
+                             <a href="#" data-toggle="modal" data-target="#resetModal">更改密碼</a> 
+                            </label>
+                          </div>
+                          <!-- login btn -->
+                          <button type="submit" name="login" class="loginBtn formBtn">登入</button>
+                        </form>
+                    </div>
+
+                    <!-- *******************  Reset Password Model ************* -->
+                    <!-- reset modal -->
+                        <div id="resetModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">更改密碼</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="text-center">
+                                            <p>輸入你的電子信箱</p>
+                                            <form method="post" action="">
+                                                <input class="login-input" type="email" name="resetEmail" placeholder="電子信箱" style="width: 70%; border-radius: 5px; border: 1px solid black;">
+                                                <br>
+                                                <input type="submit" value="更改密碼" class="btn btn-primary">
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- cancel btn -->
+                                    <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">取消</button></div>
+                                </div>
+                            </div>
+                        </div><!-- ./ reset modal -->
+                <!-- *****************  end Login form *********** -->
+
+                <!-- **************  Sign up form ********* -->
+                    <div class="signupcontain" id="signupform">
+                        <form  action="backstage/signup" method="post">
+                          <!-- *************** First View  *************** -->
+                            
+                                <p class="text-center mt-4">輸入帳號密碼</p>
+                              <div class="form-group" style="margin-top: -20px !important;">
+                                <!-- user name -->
+                                <input type="email" class="form-control" placeholder="電子信箱" name="email" id="useremail" required>
+                              </div>
+                              <div class="form-group">
+                                <!-- password -->
+                                <input type="password" class="form-control" placeholder="密碼" name="password" id="password" required>
+                              </div>     
+                              <div class="form-group">
+                                   <input type="text" class="form-control" placeholder="姓名" name="name" id="username" required>
+                                   <input type="submit" name="submit">
+                            </div>  
+                            
+                        </form>
+                       
+                    </div>
+                <!-- *****************  end Sign up form *********** -->
+            </div>
+        </div>
+    </div>
+    <script src="js/adminlogin.js"></script>
+    </body>
+    
+</html>

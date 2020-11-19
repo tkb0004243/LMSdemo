@@ -1,0 +1,44 @@
+package com.lms.demo.serviceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.lms.demo.model.BaseLog;
+import com.lms.demo.model.LoginLog;
+import com.lms.demo.model.Teacher;
+import com.lms.demo.repository.TeacherRepository;
+import com.lms.demo.service.TeacherService;
+
+@Service
+public class TeacherServiceImpl implements TeacherService {
+
+	@Autowired
+	TeacherRepository teacherRepository;
+	
+	public LoginLog login(String email,String password) {
+		LoginLog loginLog=new LoginLog();
+		List<Teacher> result=teacherRepository.findByEmail(email);
+		if(result!=null) {
+			Teacher vertify_ty=result.get(0);
+			if(vertify_ty.getPassword().equals(password)) {
+				loginLog.setTeacher(vertify_ty);
+				return loginLog;
+			}
+			loginLog.setStatus("1");
+			loginLog.setMessage("pwd is wrong");
+			return loginLog;
+			
+			
+		}
+		loginLog.setStatus("1");
+		loginLog.setMessage("account is not exist");
+		return loginLog;
+	}
+
+	public void signup(Teacher teacher) {
+		teacherRepository.save(teacher);
+	}
+
+}
