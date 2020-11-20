@@ -1,4 +1,4 @@
-package com.lms.demo.controller;
+package com.lms.demo.controller.backstage;
 
 import javax.servlet.http.HttpServletRequest;
 

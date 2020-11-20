@@ -1,4 +1,4 @@
-package com.lms.demo.controller;
+package com.lms.demo.controller.student;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

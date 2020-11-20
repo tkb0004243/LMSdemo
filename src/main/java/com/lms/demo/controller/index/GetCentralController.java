@@ -1,4 +1,4 @@
-package com.lms.demo.controller;
+package com.lms.demo.controller.index;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
