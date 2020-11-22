@@ -1093,14 +1093,19 @@
           alert("結業日期不得早於開課日期");
       }
 
-      //驗證開課人數下限<上限
+      //驗證開課人數下限<上限(min為0、1會導致false,其他則為true)
       function checkminnumber(){
         let maxnum=document.getElementById("maxnumber").value;
         let minnum=document.getElementById("minnumber").value;
+        console.log(minnum>maxnum);
         if(minnum>maxnum){
-          alert("最低開課人數不得多於最高授課人數");
+          alert("開課人數下限不得多於開課人數上限");
+          console.log(maxnum);
+          console.log(minnum);
           return
         }
+        console.log(maxnum);
+        console.log(minnum);
         checkminnumber_point=true;
 
       }

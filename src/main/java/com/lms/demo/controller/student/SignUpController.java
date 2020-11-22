@@ -57,6 +57,7 @@ public class SignUpController {
 		newstudent.setVertify_code(VertifyCodeMake.returnVertifyCode()); //設置驗證碼
 		LoginLog loginLog=studentSignUpService.vertifySignUp(newstudent);
 		System.out.println("hi");
+		System.out.println(loginLog.getStatus());
 		if("0".equals(loginLog.getStatus())) {
 			studentRepository.save(newstudent);
 			vertifyMailService.sendVertifyMail(newstudent);

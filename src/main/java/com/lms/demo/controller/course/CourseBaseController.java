@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lms.demo.model.Course;
@@ -26,10 +28,10 @@ public class CourseBaseController {
 	}
 	
 	@GetMapping("/course/search")
-	@ResponseBody
-	public List<Course> searchAll() {
+	public String searchAll(Model model) {
 		List<Course> result=courseRepository.findAll();
-		return result;
+		model.addAttribute("search_result", result);
+		return "showcourse";
 		
 	}
 }
