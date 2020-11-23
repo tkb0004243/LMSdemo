@@ -9,7 +9,9 @@ import com.lms.demo.model.Student;
 
 public interface StudentRepository extends JpaRepository<Student,Integer> {
 
-	@Query(value="select *from student s where s.EMAIL=?1",nativeQuery=true)
+	@Query(value="SELECT *FROM STUDENT s WHERE S.EMAIL=?1",nativeQuery=true)
 	List<Student> findByEmail(String email);
+	
+	
 	
 }

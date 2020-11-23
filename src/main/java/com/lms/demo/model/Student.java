@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -53,6 +54,9 @@ public class Student {
 	
 	@Column(name="VERTIFY_CODE") //儲存要比對的驗證碼
 	private String vertify_code;
+	
+	@OneToOne(mappedBy="student")
+	private Course_record course_record; 
 
 	public Student(Integer student_id, String email, String password, String name, String birthday, String authorities,
 			String status, String create_time, String update_time, String create_by, String update_by,

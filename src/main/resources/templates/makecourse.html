@@ -1086,19 +1086,21 @@
           let endDate=new Date(document.getElementById("enddate").value);
           if(strDate.getDate()<endDate.getDate()){
            alert("結業日期ok")
-           return;
-           
+           checkenddate_point=true;
+           return; 
       }
-          checkenddatepoint=true;
-          alert("結業日期不得早於開課日期");
+         alert("結業日期不得早於開課日期");
       }
 
       //驗證開課人數下限<上限(min為0、1會導致false,其他則為true)
       function checkminnumber(){
         let maxnum=document.getElementById("maxnumber").value;
         let minnum=document.getElementById("minnumber").value;
+        console.log("minnum:"+minnum);
+        console.log("maxnum"+maxnum);
         console.log(minnum>maxnum);
-        if(minnum>maxnum){
+       
+        if(parseInt(minnum)>parseInt(maxnum)){
           alert("開課人數下限不得多於開課人數上限");
           console.log(maxnum);
           console.log(minnum);
@@ -1136,8 +1138,14 @@
           alert("課程創建成功")
           return true;
         }
-        alert("課程創建失敗,請檢查")
-        return false;
+        else{
+        	 alert("課程創建失敗,請檢查")
+            console.log("checkenddate_point:"+checkenddate_point);
+             console.log("checkminnumber_point:"+checkminnumber_point);
+             console.log("checkpoint_endtime:"+checkpoint_endtime);
+             return false;
+        }
+       
       }
 
 

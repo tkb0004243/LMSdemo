@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -51,6 +52,11 @@ public class Course {
 	
 	@Column(name="UPDATE_TIME")
 	private String update_time;
+	
+	@OneToOne(mappedBy="course")
+	private Course_record course_record;
+	
+	
 
 	public Course(Integer course_id, String name, String startdate, String starttime,String endtime, String enddate, Integer maxnumber,
 			Integer minnumber, String introduce, String create_by, String update_by, String create_time,
