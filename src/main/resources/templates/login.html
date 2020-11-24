@@ -63,18 +63,18 @@
 
 											<div class="space-6"></div>
 
-											<form>
+											<form action="login" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="帳號" />
+															<input type="email" class="form-control" name="account" placeholder="帳號(電子信箱)" />
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="密碼" />
+															<input type="password" class="form-control" name="password" placeholder="密碼" />
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -87,7 +87,7 @@
 															<span class="lbl"> 記住我</span>
 														</label>
 
-														<button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">登入</span>
 														</button>

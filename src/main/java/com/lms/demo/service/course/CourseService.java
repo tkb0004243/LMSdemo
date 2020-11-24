@@ -1,4 +1,4 @@
-package com.lms.demo.service;
+package com.lms.demo.service.course;
 
 import com.lms.demo.model.BaseLog;
 import com.lms.demo.model.Course;

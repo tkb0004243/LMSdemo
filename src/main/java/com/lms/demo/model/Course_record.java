@@ -1,6 +1,7 @@
 package com.lms.demo.model;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,11 +21,11 @@ public class Course_record {
 	@Column(name="COURSE_RECORD_ID")
 	private Integer course_record_id;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="STUDENT_ID")
 	private Student student;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="COURSE_ID")
 	private Course course;
 	
@@ -39,6 +40,9 @@ public class Course_record {
 	
 	@Column(name="UPDATE_TIME")
 	private String update_time;
+	
+	@Column(name="STATUS")   //設定 '0' 已選課 '1'取消選課 '2'課程已上完
+	private String status;
 
 	public Integer getCourse_record_id() {
 		return course_record_id;
@@ -94,6 +98,14 @@ public class Course_record {
 
 	public void setUpdate_time(String update_time) {
 		this.update_time = update_time;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

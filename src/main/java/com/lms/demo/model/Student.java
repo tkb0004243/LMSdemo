@@ -33,7 +33,7 @@ public class Student {
 	@Column(name="AUTHORITIES") //0:student 1:teacher
 	private String authorities;
 	
-	@Column(name="STATUS")  //0:normal 1:not vertify
+	@Column(name="STATUS")  //設置狀態 0正常 1未驗證
 	private String status;
 	
 	@Column(name="CREATE_TIME") //SQL內自動產生
@@ -49,7 +49,7 @@ public class Student {
 	private String update_by;
 	
 	
-	@Column(name="VERTIFY_EMAIL_TIME") 
+	@Column(name="VERTIFY_EMAIL_TIME")  
 	private String vertify_email_time;
 	
 	@Column(name="VERTIFY_CODE") //儲存要比對的驗證碼

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.lms.demo.model.Student;
 import com.lms.demo.model.Teacher;
 import com.lms.demo.repository.TeacherRepository;
-import com.lms.demo.service.TeacherService;
+import com.lms.demo.service.teacher.TeacherService;
 import com.lms.demo.util.VertifyCodeMake;
 
 @Controller

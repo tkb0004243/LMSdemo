@@ -8,7 +8,7 @@ private String message;
 
 public BaseLog(String status, String message) {
 	super();
-	this.status = status;
+	this.status = status;  //0:正常 1:異常
 	this.message = message;
 }
 

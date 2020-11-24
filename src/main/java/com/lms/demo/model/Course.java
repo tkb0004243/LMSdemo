@@ -58,11 +58,10 @@ public class Course {
 	
 	
 
-	public Course(Integer course_id, String name, String startdate, String starttime,String endtime, String enddate, Integer maxnumber,
+	public Course(String name, String startdate, String starttime,String endtime, String enddate, Integer maxnumber,
 			Integer minnumber, String introduce, String create_by, String update_by, String create_time,
 			String update_time) {
 		super();
-		this.course_id = course_id;
 		this.name = name;
 		this.startdate = startdate;
 		this.starttime = starttime;

@@ -4,12 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.lms.demo.model.BaseLog;
-import com.lms.demo.model.LoginLog;
 import com.lms.demo.model.Teacher;
+import com.lms.demo.model.TeacherLoginLog;
 import com.lms.demo.repository.TeacherRepository;
-import com.lms.demo.service.TeacherService;
+import com.lms.demo.service.teacher.TeacherService;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -17,8 +15,8 @@ public class TeacherServiceImpl implements TeacherService {
 	@Autowired
 	TeacherRepository teacherRepository;
 	
-	public LoginLog login(String email,String password) {
-		LoginLog loginLog=new LoginLog();
+	public TeacherLoginLog login(String email,String password) {
+		TeacherLoginLog loginLog=new TeacherLoginLog();
 		List<Teacher> result=teacherRepository.findByEmail(email);
 		if(result!=null) {
 			Teacher vertify_ty=result.get(0);

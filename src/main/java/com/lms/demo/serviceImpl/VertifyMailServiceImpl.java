@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.lms.demo.model.BaseLog;
 import com.lms.demo.model.Student;
 import com.lms.demo.model.Teacher;
-import com.lms.demo.service.VertifyMailService;
+import com.lms.demo.service.mail.VertifyMailService;
 
 @Service
 public class VertifyMailServiceImpl implements VertifyMailService {

@@ -1,4 +1,4 @@
-package com.lms.demo.service;
+package com.lms.demo.service.mail;
 
 import javax.mail.MessagingException;
 

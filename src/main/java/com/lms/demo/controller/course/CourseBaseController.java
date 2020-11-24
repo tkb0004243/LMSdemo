@@ -21,7 +21,7 @@ public class CourseBaseController {
 	@Autowired
 	CourseRepository courseRepository;
 	
-	@PostMapping("/createcourse")
+	@PostMapping("/course/create")
 	public String createCourse(@ModelAttribute Course newcourse) {
 		courseRepository.save(newcourse);
 		return "showcourse";
