@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="left">
+	<ul class="nav nav-list">
+					
+							<li class="">
+								<a th:href="@{/course/search}">
+									<i class="menu-icon fa fa-caret-right"></i>
+									課程搜尋
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a th:href="@{/user}">
+									<i class="menu-icon fa fa-caret-right"></i>
+									會員資料
+								</a>
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="">
+								<a th:href="@{/user}">
+									<i class="menu-icon fa fa-caret-right"></i>
+									教師資料
+								</a>
+								<b class="arrow"></b>
+							</li>
+
+				</ul><!-- 左邊欄 -->
+
+
+</div>
+</html>

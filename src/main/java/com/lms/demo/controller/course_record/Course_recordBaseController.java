@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lms.demo.model.Course;
 import com.lms.demo.model.Course_record;
 import com.lms.demo.model.Student;
+import com.lms.demo.model.StudentLoginLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.repository.StudentRepository;
@@ -38,11 +39,16 @@ public class Course_recordBaseController {
 	@PostMapping("/courserecord/add")
 	public String add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
 		Course_record newcourserecord=new Course_record();
-		Student userStudent=new Student(); 
+		StudentLoginLog studentLoginLog=(StudentLoginLog) session.getAttribute("user_information");
+		if(studentLoginLog==null||studentLoginLog.getStudent()==null) {
+			model.addAttribute("system_message", "user_information異常");
+			return "error";
+		}
+		Student student=studentLoginLog.getStudent();
 		Optional<Course> course=courseRepository.findById(course_id);
-		 if(course.isPresent()) { 
+		if(course.isPresent()) { 
 		newcourserecord.setCourse(course.get());
-		newcourserecord.setStudent(userStudent);
+		newcourserecord.setStudent(student);
 		course_recordRepository.save(newcourserecord);
 		}
 		return "showcourse";

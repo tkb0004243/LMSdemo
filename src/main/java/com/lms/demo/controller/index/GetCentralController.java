@@ -32,6 +32,12 @@ public class GetCentralController {
 		
 	}
 	
+	@GetMapping("/error")
+	public String goError() {
+		return "error";
+		
+	}
+	
 	
 
 }
