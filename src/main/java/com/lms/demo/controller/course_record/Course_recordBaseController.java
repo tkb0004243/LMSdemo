@@ -21,6 +21,7 @@ import com.lms.demo.model.StudentLoginLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.repository.StudentRepository;
+import com.lms.demo.service.course_record.Course_recordBaseService;
 import com.sun.xml.bind.v2.runtime.output.StAXExStreamWriterOutput;
 
 @Controller
@@ -35,22 +36,26 @@ public class Course_recordBaseController {
 	@Autowired
 	StudentRepository studentRepository;
 	
+	@Autowired
+	Course_recordBaseService course_recordBaseService;
+	
 	
 	@PostMapping("/courserecord/add")
 	public String add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
-		Course_record newcourserecord=new Course_record();
 		StudentLoginLog studentLoginLog=(StudentLoginLog) session.getAttribute("user_information");
+		String system_message_str = null;
 		if(studentLoginLog==null||studentLoginLog.getStudent()==null) {
-			model.addAttribute("system_message", "user_information異常");
-			return "error";
+			system_message_str+="user_information異常,";
 		}
 		Student student=studentLoginLog.getStudent();
 		Optional<Course> course=courseRepository.findById(course_id);
 		if(course.isPresent()) { 
-		newcourserecord.setCourse(course.get());
-		newcourserecord.setStudent(student);
-		course_recordRepository.save(newcourserecord);
+			course_recordBaseService.addStudent(student, course.get());//取得option物件內的course
 		}
+		else {
+			system_message_str+="查無此課程,";
+		}
+		model.addAttribute("system_information", system_message_str);
 		return "showcourse";
 	}
 	

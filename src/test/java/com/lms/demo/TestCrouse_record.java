@@ -32,7 +32,7 @@ public class TestCrouse_record {
 		course_recordRepository.save(course_record);
 
 }
-	@Test
+	
 	void TestfindByCourseIDAndStudentID() {
 		List<Course_record> result=course_recordRepository.findByCourseIDAndStudentID(1,8);
 		if(result!=null) {
@@ -43,5 +43,11 @@ public class TestCrouse_record {
 			System.out.println("測試失敗");
 		}
 		
+	}
+	
+
+	void TestcountNow_Student_Number() {
+		int count=course_recordRepository.countNow_Student_Number(1);
+		System.out.println("count:"+count);
 	}
 }
