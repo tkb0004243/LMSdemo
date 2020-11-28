@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lms.demo.model.Course;
@@ -25,6 +26,7 @@ import com.lms.demo.service.course_record.Course_recordBaseService;
 import com.sun.xml.bind.v2.runtime.output.StAXExStreamWriterOutput;
 
 @Controller
+@RequestMapping(value="/student",method = {RequestMethod.GET,RequestMethod.POST})
 public class Course_recordBaseController {
 
 	@Autowired
@@ -50,27 +52,32 @@ public class Course_recordBaseController {
 		Student student=studentLoginLog.getStudent();
 		Optional<Course> course=courseRepository.findById(course_id);
 		if(course.isPresent()) { 
-			course_recordBaseService.addStudent(student, course.get());//取得option物件內的course
+			course_recordBaseService.add(student, course.get());//取得option物件內的course
 		}
 		else {
 			system_message_str+="查無此課程,";
 		}
 		model.addAttribute("system_information", system_message_str);
-		return "showcourse";
+		return "student/course/showCourse";
 	}
 	
 	@PostMapping("/courserecord/delete")
 	public String delete(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
-		List<Course_record> result=course_recordRepository.findByCourseIDAndStudentID(course_id, 9);
+		String system_message_str = null;
+		StudentLoginLog studentLoginLog =(StudentLoginLog) session.getAttribute("user_information");
+		List<Course_record> result=course_recordRepository.findByCourseIDAndStudentID(course_id, studentLoginLog.getStudent().getStudent_id());
 		if(result!=null) { 
-		course_recordRepository.delete(result.get(0));
-		System.out.println(result.get(0));
-		System.out.println("刪除成功");
+			Course_record newone=result.get(0);
+			newone.setStatus("1");
+			course_recordRepository.save(newone);
+			system_message_str+="刪除成功";
 		}
 		else {
-			System.out.println("刪除失敗");
+			system_message_str+="刪除失敗";
 		}
-		return "showcourse";
+		
+		model.addAttribute("system_message", system_message_str);
+		return "student/course/showCourse";
 		
 		
 	}

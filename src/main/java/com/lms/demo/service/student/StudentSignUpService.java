@@ -5,6 +5,8 @@ import com.lms.demo.model.Student;
 import com.lms.demo.model.StudentSignUpLog;
 
 public interface StudentSignUpService {
+	
+	public StudentSignUpLog add(StudentSignUpLog studentSignUpLog);
 
 	public StudentSignUpLog vertifySignUp(Student newstudent);
 	

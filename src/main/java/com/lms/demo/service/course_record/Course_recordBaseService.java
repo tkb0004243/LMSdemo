@@ -5,6 +5,6 @@ import com.lms.demo.model.Student;
 
 public interface Course_recordBaseService {
 	
-	public void addStudent(Student student,Course course);
+	public void add(Student student,Course course);
 
 }

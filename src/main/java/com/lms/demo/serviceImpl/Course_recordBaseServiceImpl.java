@@ -20,7 +20,7 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 	CourseRepository courseRepository;
 
 	@Override
-	public void addStudent(Student student, Course course) {
+	public void add(Student student, Course course) {
 		Course_record course_record=new Course_record();
 		
 		course_record.setStudent(student);

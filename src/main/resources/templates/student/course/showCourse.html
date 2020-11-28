@@ -1,42 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta charset="utf-8" />
-		<title>課程顯示</title>
-
-		<meta name="description" content="3 styles with inline editable feature" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
-
-		<!-- page specific plugin styles -->
-		<link rel="stylesheet" href="/assets/css/jquery-ui.custom.min.css" />
-		<link rel="stylesheet" href="/assets/css/jquery.gritter.min.css" />
-		<link rel="stylesheet" href="/assets/css/select2.min.css" />
-		<link rel="stylesheet" href="/assets/css/bootstrap-datepicker3.min.css" />
-		<link rel="stylesheet" href="/assets/css/bootstrap-editable.min.css" />
-
-		<!-- text fonts -->
-		<link rel="stylesheet" href="/assets/css/fonts.googleapis.com.css" />
-
-		<!-- ace styles -->
-		<link rel="stylesheet" href="/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-
-		
-		<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
-
-
-		<script src="/assets/js/ace-extra.min.js"></script>
-
-	</head>
+      
+      <!-- 載入共用資源 -->
+	<head th:include="student/load/css/baseCss ::baseCss"></head>
 
 	<body class="no-skin">
-	<div th:include="load/header :: header"></div>
+	<div th:include="student/load/header :: header"></div>
 
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
@@ -48,7 +18,7 @@
 					try{ace.settings.loadState('sidebar')}catch(e){}
 				</script>
 
-			<div th:include="load/left :: left"></div>
+			<div th:include="student/load/left :: left"></div>
 			
 			
 			
@@ -94,13 +64,13 @@
 											<td th:text="${course.create_by}"></td>
 											<td th:text="${course.create_time}"></td>
 											<td>
-											<form action="/courserecord/add" name="mainForm" method="post" enctype="multipart/form-data">
+											<form action="/student/courserecord/add" name="addForm" method="post" enctype="multipart/form-data">
 											<input type="hidden" name="course_id" th:value="${course.course_id}">
 											<input type="submit" value="選課">
 											</form>
 											</td> 
 											<td>
-											<form action="/courserecord/delete" name="mainForm" method="post" enctype="multipart/form-data">
+											<form action="/student/courserecord/delete" name="cancelForm" method="post" enctype="multipart/form-data">
 											<input type="hidden" name="course_id" th:value="${course.course_id}">
 											<input type="submit" value="取消">
 											</form>
@@ -144,41 +114,9 @@
 			</a>
 		</div><!-- /.main-container -->
 </div>
-		<!-- basic scripts -->
-
-		<!--[if !IE]> -->
-		<script src="/assets/js/jquery-2.1.4.min.js"></script>
-
-		<!-- <![endif]-->
-
-	
-		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-		</script>
-		<script src="/assets/js/bootstrap.min.js"></script>
-
-		<!-- page specific plugin scripts -->
-
-	
-		<script src="/assets/js/jquery-ui.custom.min.js"></script>
-		<script src="/assets/js/jquery.ui.touch-punch.min.js"></script>
-		<script src="/assets/js/jquery.gritter.min.js"></script>
-		<script src="/assets/js/bootbox.js"></script>
-		<script src="/assets/js/jquery.easypiechart.min.js"></script>
-		<script src="/assets/js/bootstrap-datepicker.min.js"></script>
-		<script src="/assets/js/jquery.hotkeys.index.min.js"></script>
-		<script src="/assets/js/bootstrap-wysiwyg.min.js"></script>
-		<script src="/assets/js/select2.min.js"></script>
-		<script src="/assets/js/spinbox.min.js"></script>
-		<script src="/assets/js/bootstrap-editable.min.js"></script>
-		<script src="/assets/js/ace-editable.min.js"></script>
-		<script src="/assets/js/jquery.maskedinput.min.js"></script>
-
-		<!-- ace scripts -->
-		<script src="/assets/js/ace-elements.min.js"></script>
-		<script src="/assets/js/ace.min.js"></script>
-
-		<!-- inline scripts related to this page -->
+		<!-- 載入共用資源 -->
+		<body th:include="student/load/js/baseJs ::baseJs"></body>
+		
 		<script type="text/javascript">
 			jQuery(function($) {
 			
