@@ -11,6 +11,7 @@ import com.lms.demo.model.Course;
 import com.lms.demo.model.Course_record;
 import com.lms.demo.model.Student;
 import com.lms.demo.repository.Course_recordRepository;
+import com.lms.demo.service.course_record.Course_recordBaseService;
 import com.sun.xml.bind.v2.runtime.output.StAXExStreamWriterOutput;
 
 @SpringBootTest
@@ -19,6 +20,8 @@ public class TestCrouse_record {
 	@Autowired
 	Course_recordRepository course_recordRepository;
 	
+	@Autowired
+	Course_recordBaseService course_recordBaseService;
 	
 	 void Testsave() {
 		Course_record course_record=new Course_record();
@@ -49,5 +52,13 @@ public class TestCrouse_record {
 	void TestcountNow_Student_Number() {
 		int count=course_recordRepository.countNow_Student_Number(1);
 		System.out.println("count:"+count);
+	}
+	
+	
+	void TestgetStudentChooseCourse_id() {
+		Student student=new Student();
+		student.setStudent_id(3);
+		List<Integer> result=course_recordBaseService.getStudentChooseCourse_id(student);
+		System.out.println(result);
 	}
 }

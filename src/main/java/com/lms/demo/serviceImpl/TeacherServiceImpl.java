@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lms.demo.model.Teacher;
-import com.lms.demo.model.TeacherLoginLog;
+import com.lms.demo.model.log.TeacherLoginLog;
 import com.lms.demo.repository.TeacherRepository;
 import com.lms.demo.service.teacher.TeacherService;
 

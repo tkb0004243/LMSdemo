@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import com.lms.demo.model.Student;
-import com.lms.demo.model.StudentSignUpLog;
+import com.lms.demo.model.log.StudentSignUpLog;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.student.StudentSignUpService;
 import com.lms.demo.util.VertifyCodeMake;

@@ -1,7 +1,7 @@
 package com.lms.demo.service.student;
 
 
-import com.lms.demo.model.StudentLoginLog;
+import com.lms.demo.model.log.StudentLoginLog;
 
 public interface StudentLoginService {
 	

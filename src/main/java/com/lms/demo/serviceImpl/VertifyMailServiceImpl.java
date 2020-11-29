@@ -14,10 +14,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.lms.demo.model.BaseLog;
 import com.lms.demo.model.Student;
-import com.lms.demo.model.StudentSignUpLog;
 import com.lms.demo.model.Teacher;
+import com.lms.demo.model.log.BaseLog;
+import com.lms.demo.model.log.StudentSignUpLog;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.mail.VertifyMailService;
 

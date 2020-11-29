@@ -1,4 +1,6 @@
-package com.lms.demo.model;
+package com.lms.demo.model.log;
+
+import com.lms.demo.model.Student;
 
 public class StudentSignUpLog extends BaseLog {
 	

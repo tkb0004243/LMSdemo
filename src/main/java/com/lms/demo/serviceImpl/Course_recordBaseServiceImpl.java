@@ -1,11 +1,16 @@
 package com.lms.demo.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lms.demo.model.Course;
 import com.lms.demo.model.Course_record;
 import com.lms.demo.model.Student;
+import com.lms.demo.model.log.Course_recordLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.service.course_record.Course_recordBaseService;
@@ -20,16 +25,34 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 	CourseRepository courseRepository;
 
 	@Override
-	public void add(Student student, Course course) {
-		Course_record course_record=new Course_record();
+	public Course_recordLog add(Student student, Course course) {
+		Course_record new_course_record=new Course_record();
+		Course_recordLog course_recordLog=new Course_recordLog();
 		
-		course_record.setStudent(student);
-		course_record.setCourse(course);
-		course_record.setStatus("0"); //0:正常選課 1：取消選課
-		course_recordRepository.save(course_record); //選課紀錄表單新增一項選課紀錄
-		Integer now_Student_Number=course_recordRepository.countNow_Student_Number(course.getCourse_id()); //計算目前課程選課的人數
-		course.setNow_student_number(now_Student_Number); //課程更新選課人數
-		courseRepository.save(course); //把課程存進資料庫
+		if(course.getMaxnumber()>course.getNow_student_number()) { //當現有選課人數小於課程上限人數才可以選課
+			new_course_record.setStudent(student);
+			new_course_record.setCourse(course);
+			new_course_record.setStatus("0");
+			course_recordRepository.save(new_course_record);
+			
+			//回傳選課狀態log
+			course_recordLog.setStatus("0");
+			course_recordLog.setMessage("選課成功");
+			course_recordLog.setCourse_record(new_course_record);
+			return course_recordLog;
+		}
+		course_recordLog.setStatus("1");
+		course_recordLog.setMessage("修課人數達到上限,選課失敗");
+		return course_recordLog;
+	}
+
+	@Override
+	public List<Integer> getStudentChooseCourse_id(Student student) {
+		List<Integer> result=new ArrayList<Integer>();
+		List<Course_record> unsolve_data=course_recordRepository.findByStudent_id(student.getStudent_id());
+		result=unsolve_data.stream().filter(data->data.getCourse().getCourse_id()!=null).map(data->data.getCourse().getCourse_id()).collect(Collectors.toList());
+		
+		return result;
 	}
 
 }

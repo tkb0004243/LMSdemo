@@ -21,7 +21,7 @@ public class Course_record {
 	@Column(name="COURSE_RECORD_ID")
 	private Integer course_record_id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="STUDENT_ID")
 	private Student student;
 	

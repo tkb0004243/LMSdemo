@@ -3,7 +3,7 @@ package com.lms.demo.service.teacher;
 
 
 import com.lms.demo.model.Teacher;
-import com.lms.demo.model.TeacherLoginLog;
+import com.lms.demo.model.log.TeacherLoginLog;
 
 
 public interface TeacherService {

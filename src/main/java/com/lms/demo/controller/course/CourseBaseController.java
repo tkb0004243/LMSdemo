@@ -2,6 +2,8 @@ package com.lms.demo.controller.course;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lms.demo.model.Course;
+import com.lms.demo.model.Student;
 import com.lms.demo.repository.CourseRepository;
+import com.lms.demo.service.course_record.Course_recordBaseService;
 
 @Controller
 @RequestMapping(value="/student/course",method= {RequestMethod.GET,RequestMethod.POST})
 public class CourseBaseController {
+	
+	@Autowired
+	Course_recordBaseService course_recordBaseService;
 
 	@Autowired
 	CourseRepository courseRepository;
@@ -39,9 +46,12 @@ public class CourseBaseController {
 	}
 	
 	@GetMapping("/search")
-	public String search(Model model) {
-		List<Course> result=courseRepository.findAll();
-		model.addAttribute("search_result", result);
+	public String search(Model model,HttpSession session) {
+		List<Course> search_result=courseRepository.findAll();
+		Student student=(Student) session.getAttribute("user_information");
+		List<Integer> choose_result=course_recordBaseService.getStudentChooseCourse_id(student);
+		model.addAttribute("search_result",search_result);
+		model.addAttribute("choose_result",choose_result);
 		return "student/course/showCourse";
 		
 	}

@@ -185,6 +185,14 @@ public class Student {
 		this.vertify_code = vertify_code;
 	}
 
+	public Course_record getCourse_record() {
+		return course_record;
+	}
+
+	public void setCourse_record(Course_record course_record) {
+		this.course_record = course_record;
+	}
+
 	
 	
 	

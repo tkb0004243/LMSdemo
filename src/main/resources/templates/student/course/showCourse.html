@@ -64,17 +64,23 @@
 											<td th:text="${course.create_by}"></td>
 											<td th:text="${course.create_time}"></td>
 											<td>
+											<div th:if="${!choose_result.contains(course.course_id)}">
 											<form action="/student/courserecord/add" name="addForm" method="post" enctype="multipart/form-data">
 											<input type="hidden" name="course_id" th:value="${course.course_id}">
 											<input type="submit" value="選課">
 											</form>
+											</div>
 											</td> 
 											<td>
+											<div  th:if="${choose_result.contains(course.course_id)}">
+											
 											<form action="/student/courserecord/delete" name="cancelForm" method="post" enctype="multipart/form-data">
 											<input type="hidden" name="course_id" th:value="${course.course_id}">
 											<input type="submit" value="取消">
 											</form>
+											</div>
 											</td>
+											
 
 											</tr>
 										</tbody>

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.lms.demo.model.StudentLoginLog;
+import com.lms.demo.model.log.StudentLoginLog;
 import com.lms.demo.service.student.StudentLoginService;
 
 @Controller

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 import com.lms.demo.model.Teacher;
-import com.lms.demo.model.TeacherLoginLog;
+import com.lms.demo.model.log.TeacherLoginLog;
 import com.lms.demo.service.teacher.TeacherService;
 
 @Controller

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lms.demo.model.Student;
-import com.lms.demo.model.StudentLoginLog;
+import com.lms.demo.model.log.StudentLoginLog;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.student.StudentLoginService;
 

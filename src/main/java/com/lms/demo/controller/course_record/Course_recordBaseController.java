@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lms.demo.model.Course;
 import com.lms.demo.model.Course_record;
 import com.lms.demo.model.Student;
-import com.lms.demo.model.StudentLoginLog;
+import com.lms.demo.model.log.Course_recordLog;
+import com.lms.demo.model.log.StudentLoginLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.repository.StudentRepository;
@@ -44,21 +45,20 @@ public class Course_recordBaseController {
 	
 	@PostMapping("/courserecord/add")
 	public String add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
-		StudentLoginLog studentLoginLog=(StudentLoginLog) session.getAttribute("user_information");
-		String system_message_str = null;
-		if(studentLoginLog==null||studentLoginLog.getStudent()==null) {
-			system_message_str+="user_information異常,";
-		}
-		Student student=studentLoginLog.getStudent();
 		Optional<Course> course=courseRepository.findById(course_id);
-		if(course.isPresent()) { 
-			course_recordBaseService.add(student, course.get());//取得option物件內的course
+		Student student=(Student) session.getAttribute("user_information");
+		List<Course> search_result=courseRepository.findAll();
+		if(course.isPresent()) {
+			Course_recordLog course_recordLog=course_recordBaseService.add(student, course.get());
+			System.out.println("course.get():"+course.get());
+			model.addAttribute("system_information", course_recordLog.getMessage());
 		}
-		else {
-			system_message_str+="查無此課程,";
-		}
-		model.addAttribute("system_information", system_message_str);
-		return "student/course/showCourse";
+		List<Integer>choose_result=course_recordBaseService.getStudentChooseCourse_id(student);
+		model.addAttribute("system_information", "查無此課程");
+		model.addAttribute("search_result", search_result);
+		model.addAttribute("choose_result",choose_result);
+		
+		return "student/course/showcourse";
 	}
 	
 	@PostMapping("/courserecord/delete")

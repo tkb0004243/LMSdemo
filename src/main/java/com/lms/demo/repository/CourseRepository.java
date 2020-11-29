@@ -7,6 +7,8 @@ import com.lms.demo.model.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
+	
+	
 
 	
 }
