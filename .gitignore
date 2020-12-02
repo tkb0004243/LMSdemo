@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### LMS Ignore ###
+src/main/resources/application.properties

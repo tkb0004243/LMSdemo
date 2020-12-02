@@ -1,4 +1,4 @@
-package com.lms.demo.controller.course_record;
+package com.lms.demo.controller.front.course_record;
 
 import java.util.List;
 import java.util.Optional;

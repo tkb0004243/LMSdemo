@@ -1,4 +1,4 @@
-package com.lms.demo.controller.admin.login;
+package com.lms.demo.controller.admin.teacher;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +20,7 @@ import com.lms.demo.service.teacher.TeacherService;
 import com.lms.demo.util.VertifyCodeMake;
 
 @Controller
-public class BackstageSignUpController {
+public class TeacherSignUpController {
 	@Autowired
 	TeacherService teacherService;
 	

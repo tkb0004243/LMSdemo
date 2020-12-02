@@ -1,4 +1,4 @@
-package com.lms.demo.controller.admin.login;
+package com.lms.demo.controller.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

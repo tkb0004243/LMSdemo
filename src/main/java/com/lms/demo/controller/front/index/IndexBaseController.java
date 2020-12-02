@@ -1,4 +1,4 @@
-package com.lms.demo.controller.index;
+package com.lms.demo.controller.front.index;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

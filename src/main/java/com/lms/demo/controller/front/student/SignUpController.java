@@ -1,4 +1,4 @@
-package com.lms.demo.controller.student;
+package com.lms.demo.controller.front.student;
 
 
 import java.text.ParseException;

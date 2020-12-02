@@ -1,4 +1,4 @@
-package com.lms.demo.controller.course;
+package com.lms.demo.controller.front.course;
 
 import java.util.List;
 
