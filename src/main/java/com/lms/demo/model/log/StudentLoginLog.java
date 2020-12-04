@@ -4,6 +4,7 @@ import com.lms.demo.model.Student;
 
 public class StudentLoginLog extends BaseLog {
 	
+	private final String authority="student";
 	
 	private Student student;
 
@@ -21,4 +22,11 @@ public class StudentLoginLog extends BaseLog {
 		this.student = student;
 	}
 
+
+	public String getAuthority() {
+		return authority;
+	}
+
+
+	
 }

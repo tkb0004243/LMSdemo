@@ -34,16 +34,7 @@ public class CourseBaseController {
 		return "student/course/showCourse";
 	}
 	
-	@GetMapping("course/create")
-	public String goMakeCourse() { 
-		return "student/course/createCourse";
-	}
 	
-	@PostMapping("/create")
-	public String create(@ModelAttribute Course newcourse) {
-		courseRepository.save(newcourse);
-		return "student/course/showCourse";
-	}
 	
 	@GetMapping("/search")
 	public String search(Model model,HttpSession session) {
