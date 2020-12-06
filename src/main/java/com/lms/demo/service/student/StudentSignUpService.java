@@ -2,12 +2,13 @@ package com.lms.demo.service.student;
 
 
 import com.lms.demo.model.Student;
-import com.lms.demo.model.log.StudentSignUpLog;
+import com.lms.demo.model.log.SignUpLog;
+
 
 public interface StudentSignUpService {
 	
-	public StudentSignUpLog add(StudentSignUpLog studentSignUpLog);
+	public SignUpLog add(SignUpLog studentSignUpLog);
 
-	public StudentSignUpLog vertifySignUp(Student newstudent);
+	public SignUpLog vertifySignUp(Student newstudent);
 	
 }

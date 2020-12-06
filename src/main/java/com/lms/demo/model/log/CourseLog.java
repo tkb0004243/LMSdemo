@@ -2,12 +2,12 @@ package com.lms.demo.model.log;
 
 import com.lms.demo.model.Course;
 
-public class CourseAddLog extends BaseLog{
+public class CourseLog extends BaseLog{
 
 	
 	private Course course;
 	
-	public CourseAddLog() {
+	public CourseLog() {
 		
 	}
 

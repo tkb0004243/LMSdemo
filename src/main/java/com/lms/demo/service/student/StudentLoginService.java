@@ -1,10 +1,9 @@
 package com.lms.demo.service.student;
 
-
-import com.lms.demo.model.log.StudentLoginLog;
+import com.lms.demo.model.log.LoginLog;
 
 public interface StudentLoginService {
 	
-	StudentLoginLog checkLogin(String account,String password);
+	LoginLog checkLogin(String account,String password);
 
 }

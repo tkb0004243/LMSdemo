@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lms.demo.model.Student;
-import com.lms.demo.model.log.StudentLoginLog;
+import com.lms.demo.model.log.LoginLog;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.student.StudentLoginService;
 
@@ -17,8 +17,8 @@ public class StudentLoginServiceImpl implements StudentLoginService {
 	StudentRepository studentRepository;
 
 	@Override
-	public StudentLoginLog checkLogin(String account, String password) {
-		StudentLoginLog studentLoginLog=new StudentLoginLog();
+	public LoginLog checkLogin(String account, String password) {
+		LoginLog studentLoginLog=new LoginLog();
 		List<Student> result=studentRepository.findByEmail(account);
 		if(result!=null)
 		{
@@ -33,6 +33,7 @@ public class StudentLoginServiceImpl implements StudentLoginService {
 				studentLoginLog.setStatus("0");
 				studentLoginLog.setMessage("帳號密碼正確");
 				studentLoginLog.setStudent(result.get(0));
+				studentLoginLog.setAuthority("student");
 				return studentLoginLog;
 			}
 			

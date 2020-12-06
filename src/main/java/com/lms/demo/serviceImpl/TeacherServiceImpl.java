@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lms.demo.model.Teacher;
-import com.lms.demo.model.log.TeacherLoginLog;
-import com.lms.demo.model.log.TeacherSignUpLog;
+import com.lms.demo.model.log.LoginLog;
+import com.lms.demo.model.log.SignUpLog;
 import com.lms.demo.repository.TeacherRepository;
 import com.lms.demo.service.mail.VertifyMailService;
 import com.lms.demo.service.teacher.TeacherService;
@@ -26,27 +26,28 @@ public class TeacherServiceImpl implements TeacherService {
 	@Autowired
 	VertifyMailService vertifyMailService;
 	
-	public TeacherLoginLog login(String email,String password) {
-		TeacherLoginLog loginLog=new TeacherLoginLog();
+	public LoginLog login(String email,String password) {
+		LoginLog teacherloginLog=new LoginLog();
 		List<Teacher> result=teacherRepository.findByEmail(email);
 		
 		if(result!=null&&!result.isEmpty()) {
 			Teacher vertify_ty=result.get(0);
 			if(vertify_ty.getPassword().equals(password)) {
-				loginLog.setStatus("0");
-				loginLog.setMessage("登入成功");
-				loginLog.setTeacher(vertify_ty);
-				return loginLog;
+				teacherloginLog.setStatus("0");
+				teacherloginLog.setMessage("登入成功");
+				teacherloginLog.setTeacher(vertify_ty);
+				teacherloginLog.setAuthority("teacher");
+				return teacherloginLog;
 			}
-			loginLog.setStatus("1");
-			loginLog.setMessage("密碼錯誤");
-			return loginLog;
+			teacherloginLog.setStatus("1");
+			teacherloginLog.setMessage("密碼錯誤");
+			return teacherloginLog;
 			
 			
 		}
-		loginLog.setStatus("1");
-		loginLog.setMessage("未註冊帳號");
-		return loginLog;
+		teacherloginLog.setStatus("1");
+		teacherloginLog.setMessage("未註冊帳號");
+		return teacherloginLog;
 	}
 
 	public void signup(Teacher teacher) {
@@ -57,8 +58,8 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public TeacherSignUpLog getmail(List<Teacher> result,HttpServletRequest request) throws ParseException {
-		TeacherSignUpLog  teacherSignUpLog=  new  TeacherSignUpLog();
+	public SignUpLog getmail(List<Teacher> result,HttpServletRequest request) throws ParseException {
+		SignUpLog  teacherSignUpLog=  new  SignUpLog();
 		if(result!=null) {
 			String vertifycode=request.getParameter("vertifycode");
 			Teacher result_ts=result.get(0);
@@ -78,6 +79,7 @@ public class TeacherServiceImpl implements TeacherService {
 			teacherSignUpLog.setStatus("0");
 			teacherSignUpLog.setMessage("驗證成功");
 			teacherSignUpLog.setTeacher(finish);
+			teacherSignUpLog.setAuthority("teacher");
 			return teacherSignUpLog;
 			
 			}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+      
+      
+      
+	 <!-- 載入共用資源 -->
+	<head th:include="admin/load/css/baseCss ::baseCss"></head>
+	
+	<body class="no-skin">
+	<div th:include="admin/load/header :: header"></div>
+	<div class="main-container ace-save-state" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.loadState('main-container')}catch(e){}
+			</script>
+
+			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+				<script type="text/javascript">
+					try{ace.settings.loadState('sidebar')}catch(e){}
+				</script>
+
+			<div th:include="admin/load/left :: left"></div>
+			
+			
+			
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
+			</div>
+
+			<div class="main-content">
+				<div class="main-content-inner">
+					<!-- PAGE CONTENT BEGINS -->
+							<div class="row">
+								<div class="col-xs-12">
+									<form class="form-horizontal" role="form" action="/backstage/course/add" method="post" onsubmit="return makeCourse_Form_Check()">
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="name">課程名稱</label>
+										<div class="col-sm-9">
+											<input type="text" id="name" placeholder="課程名稱" class="col-xs-10 col-sm-5" name="name" />
+										</div>
+									</div>
+									
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="startdate">課程開始日期/結束日期</label>
+										<div class="col-sm-4">
+											<input type="date" id="startdate" class="col-xs-10 col-sm-5" name="startdate" onchange="checkenddate()" />
+											<input type="date" id="enddate" class="col-xs-10 col-sm-5" name="enddate" onchange="checkenddate()"  />
+										</div>
+									</div>
+									
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="coursetime">上課時段/下課時段</label>
+
+										<div class="col-sm-4">
+											<input type="time" id="starttime" class="col-xs-10 col-sm-5" name="starttime" onchange="checkendtime()" />
+											<input type="time" id="endtime"  class="col-xs-10 col-sm-5" name="endtime" onchange="checkendtime()" />
+										</div>
+									</div>
+									
+									
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="studentnumber">最大人數/最小人數</label>
+
+										<div class="col-sm-4">
+											<input type="number" id="maxnumber" class="col-xs-10 col-sm-5" name="maxnumber" onchange="checkminnumber()"/>
+											<input type="number" id="minnumber"  class="col-xs-10 col-sm-5" name="minnumber"  onchange="checkminnumber()" />
+										</div>
+									</div>
+									
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="courseintroduce">課程介紹</label>
+
+										<div class="col-sm-9">
+											<input type="text" id="introduce" class="col-xs-10 col-sm-5" name="introduce" />
+										</div>
+									</div>
+								<button type="submit">送出</button>
+									</form>
+								</div>
+					</div><!-- /.page-content -->
+				</div>
+			</div><!-- /.main-content -->
+
+			<div class="footer">
+				<div class="footer-inner">
+					<div class="footer-content">
+					
+					</div>
+			</div>
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+</div>
+			
+
+		
+
+	<!-- 載入共用資源 -->
+		<body th:include="admin/load/js/baseJs ::baseJs"></body>
+		
+		<script type="text/javascript">
+			
+    	var checkenddate_point=false;
+      	var checkminnumber_point=false;
+      	var checkpoint_endtime=false;
+
+      //驗證後日日期是否早於前日
+        function checkenddate(){
+          let strDate=new Date(document.getElementById("startdate").value);
+          let endDate=new Date(document.getElementById("enddate").value);
+          if(strDate.getDate()<endDate.getDate()){
+           alert("結業日期ok")
+           checkenddate_point=true;
+           return; 
+      }
+         alert("結業日期不得早於開課日期");
+      }
+
+      //驗證開課人數下限<上限(min為0、1會導致false,其他則為true)
+      function checkminnumber(){
+        let maxnum=document.getElementById("maxnumber").value;
+        let minnum=document.getElementById("minnumber").value;
+      
+        if(parseInt(minnum)>parseInt(maxnum)){
+          alert("開課人數下限不得多於開課人數上限");
+          checkminnumber_point=false;
+          return
+        }
+       
+        checkminnumber_point=true;
+
+      }
+      
+      function checkendtime(){
+    	  let starttime=document.getElementById("starttime").value;
+    	  let endtime=document.getElementById("endtime").value;
+    	  console.log(starttime);
+    	  console.log(endtime);
+    	  starttime_arr=starttime.split(":");
+    	  endtime_arr=endtime.split(":");
+    	  if(starttime_arr[0]>endtime_arr[0]){
+    		  alert("上課時間不能晚於下課時間");
+    		  checkpoint_endtime=false;
+    		  return;
+    	  }
+    	  else if(starttime_arr[1]>endtime_arr[1]){
+    		  alert("上課時間不能晚於下課時間");
+    		  checkpoint_endtime=false;
+    		  return;
+    	  }
+    	  alert("時間設定ok")
+    	  checkpoint_endtime=true;
+    	
+      }
+
+      //表單確認
+      function makeCourse_Form_Check(){
+    	   
+        if(checkenddate_point&&checkminnumber_point&&checkpoint_endtimecheckpoint_endtime){
+          alert("課程創建成功")
+          return true;
+        }
+        else{
+        	 alert("課程創建失敗,請檢查")
+            
+             return false;
+        }
+       
+      }
+
+
+		</script>
+		
+	</body>
+</html>

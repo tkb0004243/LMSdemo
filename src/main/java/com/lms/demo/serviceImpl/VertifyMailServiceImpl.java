@@ -9,7 +9,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.lms.demo.model.Student;
 import com.lms.demo.model.Teacher;
 import com.lms.demo.model.log.BaseLog;
-import com.lms.demo.model.log.StudentSignUpLog;
+import com.lms.demo.model.log.SignUpLog;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.mail.VertifyMailService;
 
@@ -98,8 +97,8 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 
 
 	@Override
-	public StudentSignUpLog checkReturnVertifyMail(String student_email, String vertifycode) throws ParseException {
-		StudentSignUpLog studentSignUpLog=new StudentSignUpLog();
+	public SignUpLog checkReturnVertifyMail(String student_email, String vertifycode) throws ParseException {
+		SignUpLog studentSignUpLog=new SignUpLog();
 		List<Student> result=studentRepository.findByEmail(student_email);
 		if(result!=null) {
 			Student result_stu=result.get(0);
@@ -115,7 +114,7 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 			studentRepository.save(result_stu);
 			studentSignUpLog.setStatus("0");
 			studentSignUpLog.setMessage("驗證信接收成功");
-			studentSignUpLog.setNew_student(result_stu);
+			studentSignUpLog.setStudent(result_stu);
 			}
 			else {
 				studentSignUpLog.setStatus("1");

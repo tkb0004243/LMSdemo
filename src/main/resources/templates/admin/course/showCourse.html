@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+
+
+<!-- 載入共用資源 -->
+<head th:include="admin/load/css/baseCss ::baseCss"></head>
+
+<body class="no-skin">
+	<div th:include="admin/load/header :: header"></div>
+	<div class="main-container ace-save-state" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.loadState('main-container')
+			} catch (e) {
+			}
+		</script>
+
+		<div id="sidebar"
+			class="sidebar                  responsive                    ace-save-state">
+			<script type="text/javascript">
+				try {
+					ace.settings.loadState('sidebar')
+				} catch (e) {
+				}
+			</script>
+
+			<div th:include="admin/load/left :: left"></div>
+
+
+
+			<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+				<i id="sidebar-toggle-icon"
+					class="ace-icon fa fa-angle-double-left ace-save-state"
+					data-icon1="ace-icon fa fa-angle-double-left"
+					data-icon2="ace-icon fa fa-angle-double-right"></i>
+			</div>
+		</div>
+
+		<div class="main-content">
+			<div class="main-content-inner">
+				<!-- PAGE CONTENT BEGINS -->
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- PAGE CONTENT BEGINS -->
+						<div class="row">
+							<div class="col-xs-12">
+								<form id="mainForm" th:object="${course_search}"></form>
+
+								<table id="simple-table"
+									class="table  table-bordered table-hover">
+									<thead>
+										<tr>
+											<th class="center"><label class="pos-rel"> <input
+													type="checkbox" class="ace" /> <span class="lbl"></span>
+											</label></th>
+											<th class="detail-col">
+												<div class="action-buttons">
+
+													<i class="ace-icon fa fa-angle-double-down"></i>
+
+												</div>
+											</th>
+											<th class="detail-col">課程名稱</th>
+											<th>課程內容</th>
+											<th>選課人數上限/下限</th>
+											<th class="hidden-480">修課期間</th>
+
+											<th>課程介紹</th>
+											<th>課程創建者</th>
+											<th class="hidden-480">課程修改</th>
+
+											<th></th>
+										</tr>
+									</thead>
+
+									<tbody th:object="${course_search}">
+										<tr>
+											<td class="center"><label class="pos-rel"> <input
+													type="checkbox" class="ace" /> <span class="lbl"></span>
+											</label></td>
+
+											<td class="center"></td>
+
+											<td></td>
+											<td></td>
+											<td class="hidden-480"></td>
+											<td></td>
+
+											<td class="hidden-480"><span
+												class="label label-sm label-warning"></span></td>
+
+											<td></td>
+
+											<td>
+												<div class="hidden-sm hidden-xs btn-group">
+													<button class="btn btn-xs btn-success">
+														<i class="ace-icon fa fa-check bigger-120"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info">
+														<i class="ace-icon fa fa-pencil bigger-120"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger">
+														<i class="ace-icon fa fa-trash-o bigger-120"></i>
+													</button>
+
+													<button class="btn btn-xs btn-warning">
+														<i class="ace-icon fa fa-flag bigger-120"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+
+		<div class="footer">
+			<div class="footer-inner">
+				<div class="footer-content"></div>
+			</div>
+
+			<a href="#" id="btn-scroll-up"
+				class="btn-scroll-up btn btn-sm btn-inverse"> <i
+				class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div>
+		<!-- /.main-container -->
+	</div>
+</body>
+</html>

@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.lms.demo.model.Student;
 import com.lms.demo.model.log.BaseLog;
-import com.lms.demo.model.log.StudentSignUpLog;
+import com.lms.demo.model.log.SignUpLog;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.mail.VertifyMailService;
 import com.lms.demo.service.student.StudentSignUpService;
@@ -41,10 +40,10 @@ public class SignUpController {
 	
 	@PostMapping("/signup")
 	public  String signup(@ModelAttribute Student newstudent,Model model) throws MessagingException{
-		StudentSignUpLog studentSignUpLog=studentSignUpService.vertifySignUp(newstudent);
+		SignUpLog studentSignUpLog=studentSignUpService.vertifySignUp(newstudent);
 		if("0".equals(studentSignUpLog.getStatus())) {
 			 studentSignUpService.add(studentSignUpLog);
-			BaseLog baseLog=vertifyMailService.sendVertifyMail(studentSignUpLog.getNew_student());
+			BaseLog baseLog=vertifyMailService.sendVertifyMail(studentSignUpLog.getStudent());
 			model.addAttribute("system_information", studentSignUpLog.getMessage()+baseLog.getMessage());  //帶系統訊息回去
 			return "student/login/studentLogin";
 		}
@@ -63,7 +62,7 @@ public class SignUpController {
 		String student_email=request.getParameter("student_email"); 
 		String vertifycode=request.getParameter("vertifycode");
 		
-		StudentSignUpLog studentSignUpLog=vertifyMailService.checkReturnVertifyMail(student_email,vertifycode);
+		SignUpLog studentSignUpLog=vertifyMailService.checkReturnVertifyMail(student_email,vertifycode);
 		
 		if("0".equals(studentSignUpLog.getStatus())) {
 			model.addAttribute("system_information", studentSignUpLog.getMessage());

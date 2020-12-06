@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.lms.demo.model.log.StudentLoginLog;
+import com.lms.demo.model.log.LoginLog;
 import com.lms.demo.service.student.StudentLoginService;
 
 @Controller
@@ -29,7 +28,7 @@ public class LoginController {
 	@PostMapping("/login")
 	public String login(@RequestParam("account")String account,@RequestParam("password")String password,HttpSession session,Model model) {
 		
-		StudentLoginLog studentLoginLog=studentLoginService.checkLogin(account, password);
+		LoginLog studentLoginLog=studentLoginService.checkLogin(account, password);
 		
 		if("0".equals(studentLoginLog.getStatus())){ //0:正常 1：異常
 			session.setAttribute("user_information", studentLoginLog.getStudent());
@@ -46,7 +45,7 @@ public class LoginController {
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		StudentLoginLog studentLoginLog=new StudentLoginLog();
+		LoginLog studentLoginLog=new LoginLog();
 		studentLoginLog.setMessage("已登出");
 		session.setAttribute("user_information", "logout");
 		return "student/login/studentLogin";

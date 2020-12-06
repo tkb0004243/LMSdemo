@@ -19,7 +19,7 @@ import com.lms.demo.model.Course;
 import com.lms.demo.model.Course_record;
 import com.lms.demo.model.Student;
 import com.lms.demo.model.log.Course_recordLog;
-import com.lms.demo.model.log.StudentLoginLog;
+import com.lms.demo.model.log.LoginLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.repository.StudentRepository;
@@ -64,7 +64,7 @@ public class Course_recordBaseController {
 	@PostMapping("/courserecord/delete")
 	public String delete(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
 		String system_message_str = null;
-		StudentLoginLog studentLoginLog =(StudentLoginLog) session.getAttribute("user_information");
+		LoginLog studentLoginLog =(LoginLog) session.getAttribute("user_information");
 		List<Course_record> result=course_recordRepository.findByCourseIDAndStudentID(course_id, studentLoginLog.getStudent().getStudent_id());
 		if(result!=null) { 
 			Course_record newone=result.get(0);

@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lms.demo.model.Course;
+import com.lms.demo.model.Teacher;
 import com.lms.demo.model.log.BaseLog;
-import com.lms.demo.model.log.CourseAddLog;
+import com.lms.demo.model.log.CourseLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.service.course.CourseBasicService;
 
@@ -18,11 +19,12 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 	
 	
 	@Override
-	public CourseAddLog checkCourse(Course newcourse) {
-		CourseAddLog courseAddLog=new CourseAddLog();
+	public CourseLog checkCourse(Course newcourse) {
+		CourseLog courseAddLog=new CourseLog();
 		
 		
 		if(newcourse!=null) {
+			
 			courseRepository.save(newcourse);
 			courseAddLog.setStatus("0");
 			courseAddLog.setMessage("課程創建成功");
@@ -36,12 +38,15 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 	}
 
 	@Override
-	public CourseAddLog addCourse(CourseAddLog courseAddLog) {
-		BaseLog baseLog=new BaseLog();
+	public CourseLog addCourse(CourseLog courseAddLog,Teacher teacher) {
 		if("0".equals(courseAddLog.getStatus())) {
+			
+			courseAddLog.getCourse().setCreate_by(teacher.getName());
+			courseAddLog.getCourse().setNow_student_number(0);
 			courseRepository.save(courseAddLog.getCourse());
 			return courseAddLog;
 		}
+		courseAddLog.setMessage("課程寫入資料庫失敗");
 		return courseAddLog;
 	}
 

@@ -7,7 +7,8 @@ import javax.mail.MessagingException;
 import com.lms.demo.model.Student;
 import com.lms.demo.model.Teacher;
 import com.lms.demo.model.log.BaseLog;
-import com.lms.demo.model.log.StudentSignUpLog;
+import com.lms.demo.model.log.SignUpLog;
+
 
 public interface VertifyMailService {
 
@@ -15,7 +16,7 @@ public interface VertifyMailService {
 	
 	BaseLog sendVertifyMailToTeacher(Teacher newteacher) throws MessagingException;
 
-	StudentSignUpLog checkReturnVertifyMail(String student_email, String vertifycode) throws ParseException;
+	SignUpLog checkReturnVertifyMail(String student_email, String vertifycode) throws ParseException;
 	
 	
 	

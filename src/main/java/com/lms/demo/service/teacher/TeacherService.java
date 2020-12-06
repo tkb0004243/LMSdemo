@@ -8,15 +8,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.lms.demo.model.Teacher;
-import com.lms.demo.model.log.TeacherLoginLog;
-import com.lms.demo.model.log.TeacherSignUpLog;
+import com.lms.demo.model.log.LoginLog;
+import com.lms.demo.model.log.SignUpLog;
+
 
 
 public interface TeacherService {
 
-	TeacherLoginLog login(String email,String password);
+	public LoginLog login(String email,String password);
 	
-	void signup(Teacher teacher);
+	public void signup(Teacher teacher);
 	
-	TeacherSignUpLog getmail(List<Teacher> result,HttpServletRequest request) throws ParseException;
+	public SignUpLog getmail(List<Teacher> result,HttpServletRequest request) throws ParseException;
 }
