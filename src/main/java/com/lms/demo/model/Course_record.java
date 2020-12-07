@@ -1,14 +1,11 @@
 package com.lms.demo.model;
 
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -21,13 +18,11 @@ public class Course_record {
 	@Column(name="COURSE_RECORD_ID")
 	private Integer course_record_id;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name="STUDENT_ID")
-	private Student student;
+	@Column(name="STUDENT_ID")
+	private String student_id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="COURSE_ID")
-	private Course course;
+	@Column(name="COURSE_ID")
+	private String course_id;
 	
 	@Column(name="CREATE_BY")
 	private String create_by;
@@ -52,20 +47,24 @@ public class Course_record {
 		this.course_record_id = course_record_id;
 	}
 
-	public Student getStudent() {
-		return student;
+	
+	
+	
+
+	public String getStudent_id() {
+		return student_id;
 	}
 
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudent_id(String student_id) {
+		this.student_id = student_id;
 	}
 
-	public Course getCourse() {
-		return course;
+	public String getCourse_id() {
+		return course_id;
 	}
 
-	public void setCourse(Course course) {
-		this.course = course;
+	public void setCourse_id(String course_id) {
+		this.course_id = course_id;
 	}
 
 	public String getCreate_by() {

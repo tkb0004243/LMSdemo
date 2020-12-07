@@ -1,5 +1,9 @@
 package com.lms.demo.serviceImpl;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,8 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 	
 	@Autowired
 	CourseRepository courseRepository;
+	
+	
 	
 	
 	@Override
@@ -48,6 +54,30 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 		}
 		courseAddLog.setMessage("課程寫入資料庫失敗");
 		return courseAddLog;
+	}
+
+	@Override
+	public List<Course> searchAllCourse() {
+		List<Course> allCourses=courseRepository.findAll();
+		return allCourses;
+	}
+
+	@Override
+	@Transactional
+	public BaseLog deleteCourse(Integer course_id) {
+		BaseLog baseLog=new BaseLog();
+		try {
+			System.out.println("course_id:"+course_id);
+			courseRepository.deleteById(course_id);
+			baseLog.setStatus("0");
+			baseLog.setMessage("課程已經刪除");
+		}
+		catch (Exception e) {
+			baseLog.setStatus("1");
+			baseLog.setStatus("發生異常,無法刪除");
+		}
+		return baseLog;
+		
 	}
 
 }

@@ -30,8 +30,7 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 		Course_recordLog course_recordLog=new Course_recordLog();
 		
 		if(course.getMaxnumber()>course.getNow_student_number()) { //當現有選課人數小於課程上限人數才可以選課
-			new_course_record.setStudent(student);
-			new_course_record.setCourse(course);
+			
 			new_course_record.setStatus("0");
 			course_recordRepository.save(new_course_record);
 			
@@ -50,7 +49,7 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 	public List<Integer> getStudentChooseCourse_id(Student student) {
 		List<Integer> result=new ArrayList<Integer>();
 		List<Course_record> unsolve_data=course_recordRepository.findByStudent_id(student.getStudent_id());
-		result=unsolve_data.stream().filter(data->data.getCourse().getCourse_id()!=null).map(data->data.getCourse().getCourse_id()).collect(Collectors.toList());
+		
 		
 		return result;
 	}

@@ -57,8 +57,7 @@ public class Course {
 	@Column(name="NOW_STUDENT_NUMBER")
 	private Integer now_student_number;
 	
-	@OneToOne(mappedBy="course")
-	private Course_record course_record;
+	
 	
 	
 
@@ -196,13 +195,7 @@ public class Course {
 		this.now_student_number = now_student_number;
 	}
 
-	public Course_record getCourse_record() {
-		return course_record;
-	}
-
-	public void setCourse_record(Course_record course_record) {
-		this.course_record = course_record;
-	}
+	
 	
 	
 

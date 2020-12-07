@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.lms.demo.model.Course;
 import com.lms.demo.model.Course_record;
 import com.lms.demo.model.Student;
+import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.service.course_record.Course_recordBaseService;
 import com.sun.xml.bind.v2.runtime.output.StAXExStreamWriterOutput;
@@ -23,14 +24,16 @@ public class TestCrouse_record {
 	@Autowired
 	Course_recordBaseService course_recordBaseService;
 	
+	@Autowired
+	CourseRepository courseRepository;
+	
 	 void Testsave() {
 		Course_record course_record=new Course_record();
 		
 		Course course=new Course();
 		Student student=new Student();
 		
-		course_record.setCourse(course);
-		course_record.setStudent(student);
+		
 		
 		course_recordRepository.save(course_record);
 
@@ -60,5 +63,10 @@ public class TestCrouse_record {
 		student.setStudent_id(3);
 		List<Integer> result=course_recordBaseService.getStudentChooseCourse_id(student);
 		System.out.println(result);
+	}
+	
+	@Test
+	void Test() {
+		courseRepository.deleteById(1);
 	}
 }

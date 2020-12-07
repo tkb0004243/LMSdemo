@@ -1,14 +1,19 @@
 package com.lms.demo.controller.admin.course;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lms.demo.model.Course;
 import com.lms.demo.model.Teacher;
@@ -43,7 +48,7 @@ public class BackstageCourseController {
 			CourseLog courseLog=courseBasicService.checkCourse(new_course);
 			courseBasicService.addCourse(courseLog, teacher);
 			model.addAttribute("system_message", courseLog);
-			model.addAttribute("path", "/backstage/course");
+			model.addAttribute("path", "/backstage/course/search");
 			return "/admin/path";
 		}
 		
@@ -60,9 +65,30 @@ public class BackstageCourseController {
 	@GetMapping("/search")
 	public String search(Model model,HttpSession session) {
 		
-		
+		List<Course> allCourses=courseBasicService.searchAllCourse();
+		model.addAttribute("search_result", allCourses);
 		
 		return "/admin/course/showCourse";
+		
+	}
+	
+	@PostMapping("/delete")
+	public String delete(Model model,HttpSession session,HttpServletRequest request) {
+		String course_id=request.getParameter("course_id");
+		
+		
+		Integer int_course_id=Integer.parseInt(course_id);
+		
+		BaseLog resultBaseLog=courseBasicService.deleteCourse(int_course_id);
+		
+		model.addAttribute("system_message", resultBaseLog);
+		model.addAttribute("path", "/backstage/course/search");
+		
+			
+		
+		return "/admin/path";
+		
+		
 		
 	}
 	

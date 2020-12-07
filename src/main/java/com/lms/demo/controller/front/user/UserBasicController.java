@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value="/student/user",method= {RequestMethod.GET,RequestMethod.POST})
 public class UserBasicController {
 
-	@GetMapping("/user")
+	@GetMapping(value={"/"," ",""})
 	public String goUser() { 
 		return "student/user/user";
 	}

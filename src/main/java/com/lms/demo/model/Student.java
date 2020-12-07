@@ -55,8 +55,7 @@ public class Student {
 	@Column(name="VERTIFY_CODE") //儲存要比對的驗證碼
 	private String vertify_code;
 	
-	@OneToOne(mappedBy="student")
-	private Course_record course_record; 
+	
 
 	public Student(Integer student_id, String email, String password, String name, String birthday, String authorities,
 			String status, String create_time, String update_time, String create_by, String update_by,
@@ -183,14 +182,6 @@ public class Student {
 
 	public void setVertify_code(String vertify_code) {
 		this.vertify_code = vertify_code;
-	}
-
-	public Course_record getCourse_record() {
-		return course_record;
-	}
-
-	public void setCourse_record(Course_record course_record) {
-		this.course_record = course_record;
 	}
 
 	

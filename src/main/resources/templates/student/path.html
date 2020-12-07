@@ -7,12 +7,12 @@
 		
 				<div>
 				<form id="mainForm" th:object="${system_message}" >
-				<input type="hidden" id="status"  name="status" th:value="*{message}">
+				<input type="hidden" id="status"  name="status" th:value="*{status}">
 				<input type="hidden" id="message" name="message" th:value="*{message}">
 				
 				
 				
-				<input type="hidden" name="path" th:value="${path}">
+				<input type="hidden" id="path" name="path" th:value="${path}">
 			
 			</form>
 				
@@ -34,7 +34,7 @@
 			}
 				
 			window.location.href=path
-			console.log(path);
+			
 				
 				
 				
