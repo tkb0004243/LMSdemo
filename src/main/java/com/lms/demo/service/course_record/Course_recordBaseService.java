@@ -11,6 +11,8 @@ public interface Course_recordBaseService {
 	public Course_recordLog add(Student student,Course course);
 	
 	public List<Integer> getStudentChooseCourse_id(Student student);
+	
+	public Course_recordLog checkAddCourseRecord(Student student,Course course);
 		
 
 

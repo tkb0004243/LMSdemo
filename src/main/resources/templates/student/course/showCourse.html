@@ -36,7 +36,7 @@
 										class="table  table-bordered table-hover">
 										<thead>
 											<tr>
-								
+												<th>課程ID</th>
 												<th>課程名稱</th>
 												<th>開始日期</th>
 												<th>結業日期</th>
@@ -53,6 +53,7 @@
 
 										<tbody >
 											<tr th:each="course:${search_result}">
+											<td th:text="${course.course_id}"></td>
 											<td th:text="${course.name}"></td>
 											<td th:text="${course.startdate}"></td>
 											<td th:text="${course.enddate}"></td>
@@ -63,23 +64,8 @@
 											<td th:text="${course.introduce}"></td>
 											<td th:text="${course.create_by}"></td>
 											<td th:text="${course.create_time}"></td>
-											<td>
-											<div th:if="${!choose_result.contains(course.course_id)}">
-											<form action="/student/courserecord/add" name="addForm" method="post" enctype="multipart/form-data">
-											<input type="hidden" name="course_id" th:value="${course.course_id}">
-											<input type="submit" value="選課">
-											</form>
-											</div>
-											</td> 
-											<td>
-											<div  th:if="${choose_result.contains(course.course_id)}">
+											<td><button th:onclick="addCourse([[${course.course_id}]])">選課</button></td> 
 											
-											<form action="/student/courserecord/delete" name="cancelForm" method="post" enctype="multipart/form-data">
-											<input type="hidden" name="course_id" th:value="${course.course_id}">
-											<input type="submit" value="取消">
-											</form>
-											</div>
-											</td>
 											
 
 											</tr>
@@ -125,7 +111,25 @@
 		
 		<script type="text/javascript">
 			jQuery(function($) {
-			
+			function addCourse(course_id){
+				const endpoint=
+				$.ajax({
+					type:'POST',
+					data:{
+						course_id:course_id	
+					},
+					url:'http://localhost:8080/student/courserecord/add',
+					dataType: "json",
+					success: function (response) {
+						alert(response.message);
+					},
+					error:function(response){
+						alert(response.message);
+					}
+					
+					
+				})
+			}
 			})
 		</script>
 	</body>

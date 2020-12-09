@@ -19,6 +19,7 @@ import com.lms.demo.model.Course;
 import com.lms.demo.model.Course_record;
 import com.lms.demo.model.Student;
 import com.lms.demo.model.log.Course_recordLog;
+import com.lms.demo.model.log.CourserecordLog;
 import com.lms.demo.model.log.LoginLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
@@ -42,23 +43,14 @@ public class Course_recordBaseController {
 	@Autowired
 	Course_recordBaseService course_recordBaseService;
 	
+	@Autowired
+	Course_recordBaseService courseBaseService;
+	
 	
 	@PostMapping("/courserecord/add")
-	public String add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
+	public CourserecordLog add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
 		Optional<Course> course=courseRepository.findById(course_id);
-		Student student=(Student) session.getAttribute("user_information");
-		List<Course> search_result=courseRepository.findAll();
-		if(course.isPresent()) {
-			Course_recordLog course_recordLog=course_recordBaseService.add(student, course.get());
-			System.out.println("course.get():"+course.get());
-			model.addAttribute("system_information", course_recordLog.getMessage());
-		}
-		List<Integer>choose_result=course_recordBaseService.getStudentChooseCourse_id(student);
-		model.addAttribute("system_information", "查無此課程");
-		model.addAttribute("search_result", search_result);
-		model.addAttribute("choose_result",choose_result);
 		
-		return "student/course/showcourse";
 	}
 	
 	@PostMapping("/courserecord/delete")

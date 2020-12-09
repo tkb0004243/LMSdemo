@@ -15,8 +15,8 @@
 			
 			 <div class="navbar-buttons navbar-header pull-right"
 				role="navigation" th:object="${session.user_information}">
-				 <label for="student_birthday" >生日：<span th:text="*{birthday}"></span></label>
-				<label for="student_name" >學生：<span th:text="*{name}"></span></label>
+				 <label for="student_birthday" >生日：<span th:text="*{student.birthday}"></span></label>
+				<label for="student_name" >學生：<span th:text="*{student.name}"></span></label>
 			</div>
 			
 			<a href="/logout">登出</a>

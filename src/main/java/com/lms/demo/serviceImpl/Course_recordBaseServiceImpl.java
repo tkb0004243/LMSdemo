@@ -47,11 +47,8 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 
 	@Override
 	public List<Integer> getStudentChooseCourse_id(Student student) {
-		List<Integer> result=new ArrayList<Integer>();
-		List<Course_record> unsolve_data=course_recordRepository.findByStudent_id(student.getStudent_id());
+		return null;
 		
-		
-		return result;
 	}
 
 }
