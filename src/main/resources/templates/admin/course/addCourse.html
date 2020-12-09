@@ -5,7 +5,9 @@
       
       
 	 <!-- 載入共用資源 -->
+	 <head><title>創建會員</title></head>
 	<head th:include="admin/load/css/baseCss ::baseCss"></head>
+	
 	
 	<body class="no-skin">
 	<div th:include="admin/load/header :: header"></div>
@@ -115,64 +117,76 @@
         function checkenddate(){
           let strDate=new Date(document.getElementById("startdate").value);
           let endDate=new Date(document.getElementById("enddate").value);
-          if(strDate.getDate()<endDate.getDate()){
-           alert("結業日期ok")
-           checkenddate_point=true;
-           return; 
-      }
-         alert("結業日期不得早於開課日期");
-      }
-
-      //驗證開課人數下限<上限(min為0、1會導致false,其他則為true)
-      function checkminnumber(){
-        let maxnum=document.getElementById("maxnumber").value;
-        let minnum=document.getElementById("minnumber").value;
-      
-        if(parseInt(minnum)>parseInt(maxnum)){
-          alert("開課人數下限不得多於開課人數上限");
-          checkminnumber_point=false;
-          return
-        }
+          
+          
+          
+       if(endDate.valueOf()>strDate.valueOf()){
+    	   checkenddate_point=true;
+    	   return
+       }
+       checkenddate_point=false;
        
-        checkminnumber_point=true;
+      }
+      //驗證開課人數下限<上限
+      function checkminnumber(){
+        let maxnum=parseInt(document.getElementById("maxnumber").value);
+        let minnum=parseInt(document.getElementById("minnumber").value);
+        
+     
+        if(maxnum>minnum){
+        	checkminnumber_point=true;
+        	return
+        }
+        checkminnumber_point=false;
 
       }
       
       function checkendtime(){
     	  let starttime=document.getElementById("starttime").value;
     	  let endtime=document.getElementById("endtime").value;
-    	  console.log(starttime);
-    	  console.log(endtime);
-    	  starttime_arr=starttime.split(":");
-    	  endtime_arr=endtime.split(":");
-    	  if(starttime_arr[0]>endtime_arr[0]){
-    		  alert("上課時間不能晚於下課時間");
-    		  checkpoint_endtime=false;
-    		  return;
+    	  
+    	  let str_hour=parseInt(starttime.substring(0,2));
+    	  let str_minute=parseInt(starttime.substring(3,5));
+    	  let end_hour=parseInt(endtime.substring(0,2));
+    	  let end_minute=parseInt(endtime.substring(3,5));
+    	  
+    	  
+    	  if(str_hour<end_hour){
+    		  checkpoint_endtime=true;
+    		  return
     	  }
-    	  else if(starttime_arr[1]>endtime_arr[1]){
-    		  alert("上課時間不能晚於下課時間");
-    		  checkpoint_endtime=false;
-    		  return;
+    	  else if(str_hour==end_hour&&str_minute<end_minute){
+    		  checkpoint_endtime=true;
+    		  return
     	  }
-    	  alert("時間設定ok")
-    	  checkpoint_endtime=true;
+    		  checkpoint_endtime=false;
+    	  
     	
       }
 
       //表單確認
       function makeCourse_Form_Check(){
-    	   
-        if(checkenddate_point&&checkminnumber_point&&checkpoint_endtimecheckpoint_endtime){
-          alert("課程創建成功")
-          return true;
-        }
-        else{
-        	 alert("課程創建失敗,請檢查")
-            
-             return false;
-        }
-       
+    	  console.log("checkenddate_point:"+checkenddate_point);
+    	  console.log("checkminnumber_point:"+checkminnumber_point);
+    	  console.log("checkpoint_endtime:"+checkpoint_endtime);
+    	  
+    	  if(checkenddate_point==false){
+    		  alert("請確認日期");
+    		  return false;
+    	  }
+    	  
+    	  else if(checkminnumber_point==false){
+    		  alert("請確認人數");
+    		  return false;
+    	  }
+    	  
+    	  else if(checkpoint_endtime==false){
+    		  alert("請確認時間");
+    		  return false;
+    	  }
+    	  alert("課程創建成功");
+    	  return true
+   
       }
 
 
