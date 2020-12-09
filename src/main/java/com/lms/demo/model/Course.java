@@ -57,27 +57,12 @@ public class Course {
 	@Column(name="NOW_STUDENT_NUMBER")
 	private Integer now_student_number;
 	
-	
+	@Column(name="COURSE_STATUS")
+	private String course_status;
 	
 	
 
-	public Course(String name, String startdate, String starttime,String endtime, String enddate, Integer maxnumber,
-			Integer minnumber, String introduce, String create_by, String update_by, String create_time,
-			String update_time) {
-		super();
-		this.name = name;
-		this.startdate = startdate;
-		this.starttime = starttime;
-		this.endtime=endtime;
-		this.enddate = enddate;
-		this.maxnumber = maxnumber;
-		this.minnumber = minnumber;
-		this.introduce = introduce;
-		this.create_by = create_by;
-		this.update_by = update_by;
-		this.create_time = create_time;
-		this.update_time = update_time;
-	}
+	
 
 	public Course() {
 		super();
@@ -193,6 +178,14 @@ public class Course {
 
 	public void setNow_student_number(Integer now_student_number) {
 		this.now_student_number = now_student_number;
+	}
+
+	public String getCourse_status() {
+		return course_status;
+	}
+
+	public void setCourse_status(String course_status) {
+		this.course_status = course_status;
 	}
 
 	

@@ -50,6 +50,7 @@ public class Course_recordBaseController {
 	@PostMapping("/courserecord/add")
 	public CourserecordLog add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
 		Optional<Course> course=courseRepository.findById(course_id);
+		return null;
 		
 	}
 	

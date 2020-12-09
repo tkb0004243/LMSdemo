@@ -2,6 +2,7 @@ package com.lms.demo.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +46,54 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 		return course_recordLog;
 	}
 
-	@Override
-	public List<Integer> getStudentChooseCourse_id(Student student) {
-		return null;
+	
+
+	@Override 
+	public Course_recordLog checkAddCourseRecord(Student student, Course course) { 
+		Course_recordLog course_recordLog=new Course_recordLog();
+		List<Course_record> results=course_recordRepository.findByCourseIDAndStudentID(course.getCourse_id(),student.getStudent_id());
+		if(results!=null&&results.size()>0) {
+			for(Course_record record : results) {
+				if(record.getCourse_record_id().equals(course.getCourse_id())) { //與學生已選取的課程重複
+					course_recordLog.setStatus("1");
+					course_recordLog.setMessage("課程選取不得重複");
+					return course_recordLog;
+				}
+			}
+			
+			if(!"0".equals(course.getCourse_status())) { //課程狀態為不可以選擇
+				course_recordLog.setStatus("1");
+				course_recordLog.setMessage("課程狀態為不可選擇");
+				return course_recordLog;
+			}
+			
 		
+		}
+		course_recordLog.setStatus("0");
+		course_recordLog.setMessage("此課程可以選擇");
+		course_recordLog.setStudent(student);
+		course_recordLog.setCourse(course);
+		
+		return course_recordLog;
 	}
 
+
+
+	@Override
+	public List<Optional<Course>> getStudentChooseCourse(Student student) {
+		List<Optional<Course>> result=new ArrayList<Optional<Course>>();
+		Integer student_id=student.getStudent_id();
+		List<Course_record> searchs=course_recordRepository.findByStudent_id(student_id);
+		if(searchs!=null&&searchs.size()>0) {
+			for( Course_record record :searchs) {
+				Optional<Course> course=courseRepository.findById(record.getCourse_id());
+				result.add(course);
+				return result;
+			}
+			
+		}
+		return null;
+	
+
+}
 }

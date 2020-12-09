@@ -1,6 +1,8 @@
 package com.lms.demo.controller.front.course;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,9 +43,13 @@ public class CourseBaseController {
 	public String search(Model model,HttpSession session) {
 		List<Course> search_result=courseRepository.findAll();
 		LoginLog studentLoginLog=(LoginLog) session.getAttribute("user_information");
-		List<Integer> choose_result=course_recordBaseService.getStudentChooseCourse_id(studentLoginLog.getStudent());
+		List<Optional<Course>> get_course_record=course_recordBaseService.getStudentChooseCourse(studentLoginLog.getStudent());
+		
+		List<Course> choose_courses=get_course_record.stream().filter(course->course.isPresent()).map(course->course.get()).collect(Collectors.toList());
+		
+		
 		model.addAttribute("search_result",search_result);
-		model.addAttribute("choose_result",choose_result);
+		model.addAttribute("choose_result",choose_courses);
 		return "student/course/showCourse";
 		
 	}

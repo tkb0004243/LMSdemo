@@ -19,10 +19,10 @@ public class Course_record {
 	private Integer course_record_id;
 	
 	@Column(name="STUDENT_ID")
-	private String student_id;
+	private Integer student_id;
 	
 	@Column(name="COURSE_ID")
-	private String course_id;
+	private Integer course_id;
 	
 	@Column(name="CREATE_BY")
 	private String create_by;
@@ -51,19 +51,19 @@ public class Course_record {
 	
 	
 
-	public String getStudent_id() {
+	public Integer getStudent_id() {
 		return student_id;
 	}
 
-	public void setStudent_id(String student_id) {
+	public void setStudent_id(Integer student_id) {
 		this.student_id = student_id;
 	}
 
-	public String getCourse_id() {
+	public Integer getCourse_id() {
 		return course_id;
 	}
 
-	public void setCourse_id(String course_id) {
+	public void setCourse_id(Integer course_id) {
 		this.course_id = course_id;
 	}
 
