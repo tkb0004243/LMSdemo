@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.lms.demo.model.Student;
 import com.lms.demo.model.log.BaseLog;
 import com.lms.demo.model.log.SignUpLog;
@@ -24,7 +26,7 @@ import com.lms.demo.service.student.StudentSignUpService;
 import com.lms.demo.util.VertifyCodeMake;
 
 @Controller
-@RequestMapping(value="/student",method= {RequestMethod.GET,RequestMethod.POST})
+@RequestMapping(value="/student")
 public class SignUpController {
 
 	@Autowired
@@ -40,19 +42,26 @@ public class SignUpController {
 	
 	@PostMapping("/signup")
 	public  String signup(@ModelAttribute Student newstudent,Model model) throws MessagingException{
+		BaseLog baseLog=new BaseLog();
 		SignUpLog studentSignUpLog=studentSignUpService.vertifySignUp(newstudent);
 		if("0".equals(studentSignUpLog.getStatus())) {
-			 studentSignUpService.add(studentSignUpLog);
-			BaseLog baseLog=vertifyMailService.sendVertifyMail(studentSignUpLog.getStudent());
-			model.addAttribute("system_information", studentSignUpLog.getMessage()+baseLog.getMessage());  //帶系統訊息回去
-			return "student/login/studentLogin";
+			studentSignUpService.add(studentSignUpLog);
+			baseLog=vertifyMailService.sendVertifyMailToStudent(studentSignUpLog.getStudent());
 		}
-		model.addAttribute("system_information", studentSignUpLog.getMessage()); //帶系統訊息回去
-		return "student/login/studentLogin";
+		else {
+			baseLog.setStatus("1");
+			baseLog.setMessage("註冊失敗");
+		}
+		
+		model.addAttribute("system_message", baseLog);
+		model.addAttribute("path", "/student/login");
+		
+		return "student/path";
+		
 	}
 	
-	@GetMapping("/mail/go")
-	public String go() {
+	@GetMapping("/mail/resend")
+	public String goResend() {
 		return "student/mail/sendMail";
 		
 	}
@@ -75,9 +84,26 @@ public class SignUpController {
 		
 		
 	@PostMapping("mail/resend")	
-	public String resend(HttpServletRequest request,Model model) {
+	public String resend(@RequestParam(value="user_account") String user_account,Model model) throws MessagingException {
+		BaseLog baseLog=new BaseLog();
+		Student new_student=new Student();
+		List<Student> newst=studentRepository.findByEmail(user_account);
+		if(newst!=null&&newst.size()>0) { //有找到學生在資料庫但未驗證資料
+			new_student=newst.get(0);
+			baseLog=vertifyMailService.sendVertifyMailToStudent(new_student);
+		}
+		else {
+			baseLog.setStatus("1");
+			baseLog.setMessage("查無此用戶,請重新註冊");
+		}
+		model.addAttribute("system_message", baseLog);
+		model.addAttribute("path","/student/login");
 		
-		return null;
+		
+		
+		return "student/path";
+		
+		
 		
 	}
 	

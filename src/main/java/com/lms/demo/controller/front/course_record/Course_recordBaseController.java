@@ -24,6 +24,7 @@ import com.lms.demo.model.log.LoginLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.repository.StudentRepository;
+import com.lms.demo.service.course.CourseBasicService;
 import com.lms.demo.service.course_record.Course_recordBaseService;
 import com.sun.xml.bind.v2.runtime.output.StAXExStreamWriterOutput;
 
@@ -44,35 +45,66 @@ public class Course_recordBaseController {
 	Course_recordBaseService course_recordBaseService;
 	
 	@Autowired
-	Course_recordBaseService courseBaseService;
+	CourseBasicService courseBasicService;
 	
 	
 	@PostMapping("/courserecord/add")
-	public CourserecordLog add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
+	public String add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
 		Optional<Course> course=courseRepository.findById(course_id);
-		return null;
+		Course_recordLog course_recordLog=new Course_recordLog();
+		Course_record new_Course_record=new Course_record();
+		Student student=new Student();
+		LoginLog loginLog=(LoginLog) session.getAttribute("user_information");
+		if(loginLog.getStudent()!=null) {
+			student=loginLog.getStudent();
+		}
+	
+		if(course.isPresent()) {
+			course_recordLog=course_recordBaseService.checkAddCourseRecord(student, course.get());
+		}
+		
+		if(course_recordLog.getStatus()!=null&&"0".equals(course_recordLog.getStatus())) {
+			new_Course_record.setStatus("0");
+			new_Course_record.setCourse_id(course_id);
+			new_Course_record.setStudent_id(student.getStudent_id());
+			new_Course_record.setCreate_by(student.getName());
+			course_recordLog.setMessage("選課成功");
+			course_recordRepository.save(new_Course_record);
+		}
+	
+		
+		
+		model.addAttribute("system_message", course_recordLog);
+		model.addAttribute("path", "/student/course/search");
+		
+		return "student/path";
 		
 	}
 	
 	@PostMapping("/courserecord/delete")
 	public String delete(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
-		String system_message_str = null;
-		LoginLog studentLoginLog =(LoginLog) session.getAttribute("user_information");
-		List<Course_record> result=course_recordRepository.findByCourseIDAndStudentID(course_id, studentLoginLog.getStudent().getStudent_id());
-		if(result!=null) { 
-			Course_record newone=result.get(0);
-			newone.setStatus("1");
-			course_recordRepository.save(newone);
-			system_message_str+="刪除成功";
+		Course_recordLog course_recordLog=new Course_recordLog();
+		LoginLog loginLog=(LoginLog) session.getAttribute("user_information");
+		Course course=courseRepository.findById(course_id).get();
+		Student student=loginLog.getStudent();
+		course_recordLog=course_recordBaseService.delete(student, course);
+		
+		if("0".equals(course_recordLog.getStatus())) {
+			course_recordLog.setMessage("課程刪除成功");
+			
 		}
 		else {
-			system_message_str+="刪除失敗";
+			course_recordLog.setMessage("課程刪除失敗");
 		}
 		
-		model.addAttribute("system_message", system_message_str);
-		return "student/course/showCourse";
+		model.addAttribute("system_message", course_recordLog);
+		model.addAttribute("path", "/student/course/search");
 		
 		
-	}
+		
+		
+		
+		return "student/path";
 	
+	}	
 }

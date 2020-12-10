@@ -12,11 +12,13 @@ import com.lms.demo.model.log.SignUpLog;
 
 public interface VertifyMailService {
 
-	BaseLog sendVertifyMail(Student newstudent) throws MessagingException;
+	BaseLog sendVertifyMailToStudent(Student newstudent) throws MessagingException;
 	
 	BaseLog sendVertifyMailToTeacher(Teacher newteacher) throws MessagingException;
 
 	SignUpLog checkReturnVertifyMail(String student_email, String vertifycode) throws ParseException;
+	
+	BaseLog reSendVertifyMail(Student student) throws MessagingException; //將student從資料庫裡撈出,然後更正
 	
 	
 	

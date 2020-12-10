@@ -21,4 +21,7 @@ public interface Course_recordRepository extends JpaRepository<Course_record, In
 	
 	@Query(value="SELECT *FROM course_record WHERE STUDENT_ID=?1 ",nativeQuery=true)
 	public List<Course_record> findByStudent_id(Integer student_id);
+	
+	@Query(value=" SELECT * FROM  lms.course_record WHERE STUDENT_ID = ?1 AND COURSE_ID = ?2 ",nativeQuery=true)
+	public List<Course_record> findByStudent_idAndCourse_id(Integer student_id,Integer course_id);
 }

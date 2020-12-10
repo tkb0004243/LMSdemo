@@ -88,12 +88,32 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 			for( Course_record record :searchs) {
 				Optional<Course> course=courseRepository.findById(record.getCourse_id());
 				result.add(course);
-				return result;
+				
 			}
-			
+			return result;
 		}
 		return null;
 	
 
 }
+
+
+
+	@Override
+	public Course_recordLog delete(Student student, Course course) {
+		Course_recordLog course_recordLog=new Course_recordLog();
+		List<Course_record> results=course_recordRepository.findByStudent_idAndCourse_id(student.getStudent_id(), course.getCourse_id());
+		if(results!=null&&results.size()>0) {
+			course_recordLog.setStatus("0");
+			course_recordLog.setMessage("已刪除課程");
+			course_recordLog.setCourse_record(results.get(0));
+			course_recordRepository.delete(results.get(0));
+			return course_recordLog;
+		}
+		course_recordLog.setStatus("1");
+		course_recordLog.setMessage("課程刪除異常");
+		
+		
+		return course_recordLog;
+	}
 }

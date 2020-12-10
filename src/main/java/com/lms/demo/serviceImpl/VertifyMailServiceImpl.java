@@ -1,7 +1,9 @@
 package com.lms.demo.serviceImpl;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import com.lms.demo.model.log.BaseLog;
 import com.lms.demo.model.log.SignUpLog;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.mail.VertifyMailService;
+import com.lms.demo.util.VertifyCodeMake;
 
 @Service
 public class VertifyMailServiceImpl implements VertifyMailService {
@@ -29,7 +32,7 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 	@Autowired
 	StudentRepository studentRepository;
 
-	public BaseLog sendVertifyMail(Student newstudent) throws MessagingException {
+	public BaseLog sendVertifyMailToStudent(Student newstudent) throws MessagingException {
 		BaseLog baseLog = new BaseLog();
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -53,14 +56,14 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 					true);
 			
 			baseLog.setStatus("0");
-			baseLog.setMessage("寄信成功");
+			baseLog.setMessage("驗證信已寄送,請查閱");
 			mailSender.send(mimeMessage);
 			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			baseLog.setStatus("1");
-			baseLog.setMessage("寄送失敗");
+			baseLog.setMessage("驗證信寄送失敗,請點選重新寄送");
 			
 		}
 		return baseLog;
@@ -72,6 +75,7 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 	public BaseLog sendVertifyMailToTeacher(Teacher newteacher) throws MessagingException {
 		
 		BaseLog baseLog = new BaseLog();
+	try {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 		helper.setFrom("digitalken1127@gmail.com");
@@ -92,7 +96,17 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 				 + "</html>",
 				true);
 		mailSender.send(mimeMessage);
+		baseLog.setStatus("0");
+		baseLog.setMessage("驗證信已寄送,請查閱");
 		return baseLog;
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+		baseLog.setStatus("1");
+		baseLog.setMessage("驗證信寄送失敗,請點選重新寄送");
+		
+	}
+	return baseLog;
 	}
 
 
@@ -109,7 +123,7 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 			long from=today.getTime();
 			long to=ver_date.getTime();
 			long gap=from-to;
-			if(result_stu.getVertify_code().equals(vertifycode)&&gap<(1000*60*60)) { //0:正常 1:異常
+			if(result_stu.getVertify_code().equals(vertifycode)&&gap<(1000*60*60)) { //0:正常 1:異常 //判斷點選驗證信的時間是否超過一小時
 				result_stu.setStatus("0");
 			studentRepository.save(result_stu);
 			studentSignUpLog.setStatus("0");
@@ -126,6 +140,33 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 		studentSignUpLog.setMessage("無此帳號");
 		return studentSignUpLog;
 
+	}
+
+
+	@Override
+	public BaseLog reSendVertifyMail(Student student) throws MessagingException {
+		BaseLog baseLog=new BaseLog();
+		try {
+		
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();
+		String dateStringParse = sdf.format(date);
+		ts=Timestamp.valueOf(dateStringParse);
+		student.setVertify_email_time(ts.toString()); //重新設置驗證時間
+		student.setVertify_code(VertifyCodeMake.returnVertifyCode()); //重新設置驗證碼
+		studentRepository.save(student);
+		baseLog=sendVertifyMailToStudent(student);
+		
+		}
+		catch(Exception e) {
+			baseLog.setStatus("1");
+			baseLog.setMessage("驗證信寄發失敗");
+		}
+		return baseLog;
+		
+		
 	}	
 
 	

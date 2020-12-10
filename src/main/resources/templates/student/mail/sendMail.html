@@ -3,22 +3,41 @@
       xmlns:th="http://www.thymeleaf.org">
 
   <!-- 載入共用資源 -->
+  <head><title>重新寄發驗證信</title></head>
 	<head th:include="student/load/css/baseCss ::baseCss"></head>
 
 
 	
 <body>
-<div th:include="student/load/header :: header"></div>
-<h1>會員驗證信</h1>
-<p>請點選驗證按鈕</p>
 
-<form action="getmail" method="post">
-<input type="hidden" name="student_email" value="">
-<input type="hidden" name="vertifycode" value="">
-<button type="submit" >提交驗證</button>
+
+<p></p>
+
+<form id="mainForm">
+<input type="email" name="user_account" th:value="${user_account}" placeholder="請輸入電子信箱">
+
+<button th:onclick="toReSendMail()" >重新寄送驗證信</button>
 </form>
 
 
 <body th:include="student/load/js/baseJs ::baseJs"></body>
+
+<script type="text/javascript">
+
+function toReSendMail(account){
+	$("#mainForm").attr("action","student/mail/resend");
+	$("#mainForm").attr("method","post");
+	$("#mainForm").submit();
+	
+
+	}
+
+
+
+
+</script>
+
+
+
 </body>
 </html>

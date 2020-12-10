@@ -18,7 +18,7 @@ public interface Course_recordBaseService {
 	//課程能否是被選擇的狀態
 	//現有選課人數是否額滿
 	
-
+	public Course_recordLog delete(Student student,Course course);
 
 	}
 

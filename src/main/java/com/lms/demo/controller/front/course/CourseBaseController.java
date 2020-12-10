@@ -45,11 +45,11 @@ public class CourseBaseController {
 		LoginLog studentLoginLog=(LoginLog) session.getAttribute("user_information");
 		List<Optional<Course>> get_course_record=course_recordBaseService.getStudentChooseCourse(studentLoginLog.getStudent());
 		
-		List<Course> choose_courses=get_course_record.stream().filter(course->course.isPresent()).map(course->course.get()).collect(Collectors.toList());
-		
+		List<Course> choose_result=get_course_record.stream().filter(course->course.isPresent()).map(course->course.get()).collect(Collectors.toList());
+		search_result=search_result.stream().filter(result->!choose_result.contains(result)).collect(Collectors.toList()); //過濾掉已經在choose_courses的課程
 		
 		model.addAttribute("search_result",search_result);
-		model.addAttribute("choose_result",choose_courses);
+		model.addAttribute("choose_result",choose_result);
 		return "student/course/showCourse";
 		
 	}

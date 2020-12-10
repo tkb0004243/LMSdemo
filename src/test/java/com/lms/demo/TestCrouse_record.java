@@ -58,12 +58,7 @@ public class TestCrouse_record {
 	}
 	
 	
-	void TestgetStudentChooseCourse_id() {
-		Student student=new Student();
-		student.setStudent_id(3);
-		List<Integer> result=course_recordBaseService.getStudentChooseCourse_id(student);
-		System.out.println(result);
-	}
+	
 	
 	@Test
 	void Test() {

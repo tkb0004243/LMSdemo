@@ -1,136 +1,190 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-      
-      <!-- 載入共用資源 -->
-	<head th:include="student/load/css/baseCss ::baseCss"></head>
+	xmlns:th="http://www.thymeleaf.org">
 
-	<body class="no-skin">
+<!-- 載入共用資源 -->
+<head><title>課程搜尋</title></head>
+<head th:include="student/load/css/baseCss ::baseCss"></head>
+
+<body class="no-skin">
 	<div th:include="student/load/header :: header"></div>
 
-		<div class="main-container ace-save-state" id="main-container">
+	<div class="main-container ace-save-state" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.loadState('main-container')
+			} catch (e) {
+			}
+		</script>
+
+		<div id="sidebar"
+			class="sidebar                  responsive                    ace-save-state">
 			<script type="text/javascript">
-				try{ace.settings.loadState('main-container')}catch(e){}
+				try {
+					ace.settings.loadState('sidebar')
+				} catch (e) {
+				}
 			</script>
 
-			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-				<script type="text/javascript">
-					try{ace.settings.loadState('sidebar')}catch(e){}
-				</script>
-
 			<div th:include="student/load/left :: left"></div>
-			
-			
-			
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-				</div>
+
+
+
+			<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+				<i id="sidebar-toggle-icon"
+					class="ace-icon fa fa-angle-double-left ace-save-state"
+					data-icon1="ace-icon fa fa-angle-double-left"
+					data-icon2="ace-icon fa fa-angle-double-right"></i>
 			</div>
-
-			<div class="main-content">
-				<div class="main-content-inner">
-					<!-- PAGE CONTENT BEGINS -->
-							<div class="row">
-								<div class="col-xs-12">
-									<table id="simple-table"
-										class="table  table-bordered table-hover">
-										<thead>
-											<tr>
-												<th>課程ID</th>
-												<th>課程名稱</th>
-												<th>開始日期</th>
-												<th>結業日期</th>
-												<th>開始時間</th>
-
-												<th>結束時間</th>
-												<th>最大修課人數</th>
-												<th>最小修課人數</th>
-												<th>課程介紹</th>
-												<th>創建者</th>
-												<th>創建時間</th>
-											</tr>
-										</thead>
-
-										<tbody >
-											<tr th:each="course:${search_result}">
-											<td th:text="${course.course_id}"></td>
-											<td th:text="${course.name}"></td>
-											<td th:text="${course.startdate}"></td>
-											<td th:text="${course.enddate}"></td>
-											<td th:text="${course.starttime}"></td>
-											<td th:text="${course.endtime}"></td>
-											<td th:text="${course.maxnumber}"></td>
-											<td th:text="${course.minnumber}"></td>
-											<td th:text="${course.introduce}"></td>
-											<td th:text="${course.create_by}"></td>
-											<td th:text="${course.create_time}"></td>
-											<td><button th:onclick="addCourse([[${course.course_id}]])">選課</button></td> 
-											
-											
-
-											</tr>
-										</tbody>
-									</table>
-								</div>
-					</div><!-- /.page-content -->
-				</div>
-			</div><!-- /.main-content -->
-
-			<div class="footer">
-				<div class="footer-inner">
-					<div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">Ace</span>
-							Application &copy; 2013-2014
-						</span>
-
-						&nbsp; &nbsp;
-						<span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-							</a>
-						</span>
-					</div>
-			</div>
-
-			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-			</a>
-		</div><!-- /.main-container -->
-</div>
-		<!-- 載入共用資源 -->
-		<body th:include="student/load/js/baseJs ::baseJs"></body>
+			
+		<form id="mainForm" >
+		<input type="hidden" id="course_id" name="course_id">
 		
-		<script type="text/javascript">
-			jQuery(function($) {
-			function addCourse(course_id){
-				const endpoint=
-				$.ajax({
-					type:'POST',
-					data:{
-						course_id:course_id	
-					},
-					url:'http://localhost:8080/student/courserecord/add',
-					dataType: "json",
-					success: function (response) {
-						alert(response.message);
-					},
-					error:function(response){
-						alert(response.message);
-					}
-					
-					
-				})
-			}
-			})
-		</script>
-	</body>
+		
+		</form>
+		</div>
+		
+		
+	
+		<div class="main-content">
+			<div class="main-content-inner">
+				<!-- PAGE CONTENT BEGINS -->
+				<div class="row">
+					<div class="col-xs-12">
+						<table id="simple-table" class="table  table-bordered table-hover">
+							<caption>所有的課程</caption>
+							<thead>
+								<tr>
+									<th>課程ID</th>
+									<th>課程名稱</th>
+									<th>開始日期</th>
+									<th>結業日期</th>
+									<th>開始時間</th>
+
+									<th>結束時間</th>
+									<th>最大修課人數</th>
+									<th>最小修課人數</th>
+									<th>課程介紹</th>
+									<th>創建者</th>
+									<th>創建時間</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr th:each="course:${search_result}">
+									<td th:text="${course.course_id}"></td>
+									<td th:text="${course.name}"></td>
+									<td th:text="${course.startdate}"></td>
+									<td th:text="${course.enddate}"></td>
+									<td th:text="${course.starttime}"></td>
+									<td th:text="${course.endtime}"></td>
+									<td th:text="${course.maxnumber}"></td>
+									<td th:text="${course.minnumber}"></td>
+									<td th:text="${course.introduce}"></td>
+									<td th:text="${course.create_by}"></td>
+									<td th:text="${course.create_time}"></td>
+									<td><button th:onclick="addcourse([[${course.course_id}]])">選課</button></td>
+								</tr>		
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- /.page-content -->
+				<div class="row">
+					<div class="col-xs-12">
+						<table id="simple-table" class="table  table-bordered table-hover">
+							<caption>已經選擇的課</caption>
+							<thead>
+								<tr>
+									<th>課程ID</th>
+									<th>課程名稱</th>
+									<th>開始日期</th>
+									<th>結業日期</th>
+									<th>開始時間</th>
+
+									<th>結束時間</th>
+									<th>最大修課人數</th>
+									<th>最小修課人數</th>
+									<th>課程介紹</th>
+									<th>創建者</th>
+									<th>創建時間</th>
+								</tr>
+							</thead>
+
+							<tbody>
+
+
+								<tr th:each="choose_course:${choose_result}">
+									<td th:text="${choose_course.course_id}"></td>
+									<td th:text="${choose_course.name}"></td>
+									<td th:text="${choose_course.startdate}"></td>
+									<td th:text="${choose_course.enddate}"></td>
+									<td th:text="${choose_course.starttime}"></td>
+									<td th:text="${choose_course.endtime}"></td>
+									<td th:text="${choose_course.maxnumber}"></td>
+									<td th:text="${choose_course.minnumber}"></td>
+									<td th:text="${choose_course.introduce}"></td>
+									<td th:text="${choose_course.create_by}"></td>
+									<td th:text="${choose_course.create_time}"></td>
+									<td><button
+											th:onclick="deletecourse([[${choose_course.course_id}]])">取消</button></td>
+								</tr>
+
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- /.main-content -->
+
+		<div class="footer">
+			<div class="footer-inner">
+				<div class="footer-content">
+					<span class="bigger-120"> <span class="blue bolder">Ace</span>
+						Application &copy; 2013-2014
+					</span> &nbsp; &nbsp; <span class="action-buttons"> <a href="#">
+							<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+					</a> <a href="#"> <i
+							class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+					</a> <a href="#"> <i
+							class="ace-icon fa fa-rss-square orange bigger-150"></i>
+					</a>
+					</span>
+				</div>
+			</div>
+
+			<a href="#" id="btn-scroll-up"
+				class="btn-scroll-up btn btn-sm btn-inverse"> <i
+				class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div>
+		<!-- /.main-container -->
+	</div>
+	<!-- 載入共用資源 -->
+<body th:include="student/load/js/baseJs ::baseJs"></body>
+
+<script type="text/javascript">
+	
+		
+		function addcourse(course_id) {
+			
+			document.getElementById("course_id").value=course_id;
+			$("#mainForm").attr("action","/student/courserecord/add");
+			$("#mainForm").attr("method","post");
+			$("#mainForm").submit();	
+		}
+		
+function deletecourse(course_id) {
+			
+			document.getElementById("course_id").value=course_id;
+			$("#mainForm").attr("action","/student/courserecord/delete");
+			$("#mainForm").attr("method","post");
+			$("#mainForm").submit();	
+		}
+
+</script>
+</body>
 </html>
