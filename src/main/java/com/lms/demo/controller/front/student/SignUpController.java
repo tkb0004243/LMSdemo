@@ -66,19 +66,21 @@ public class SignUpController {
 		
 	}
 	
-	@PostMapping("mail/get") //接收驗證信回傳
+	@PostMapping("/mail/get") //接收驗證信回傳
 	public String getMail(HttpServletRequest request,Model model) throws ParseException {
 		String student_email=request.getParameter("student_email"); 
 		String vertifycode=request.getParameter("vertifycode");
 		
 		SignUpLog studentSignUpLog=vertifyMailService.checkReturnVertifyMail(student_email,vertifycode);
-		
+	
 		if("0".equals(studentSignUpLog.getStatus())) {
-			model.addAttribute("system_information", studentSignUpLog.getMessage());
-			return "student/login/studentLogin";
+			model.addAttribute("system_message", studentSignUpLog);
+			model.addAttribute("path", "/student/login");
+			return "student/path";
 		}
-		model.addAttribute("system_information", studentSignUpLog.getMessage());
-		return "student/mail/reSend";
+		model.addAttribute("system_message", studentSignUpLog);
+		model.addAttribute("path", "/student/mail/resend");
+		return "student/path";
 			
 		}
 		
@@ -90,7 +92,7 @@ public class SignUpController {
 		List<Student> newst=studentRepository.findByEmail(user_account);
 		if(newst!=null&&newst.size()>0) { //有找到學生在資料庫但未驗證資料
 			new_student=newst.get(0);
-			baseLog=vertifyMailService.sendVertifyMailToStudent(new_student);
+			baseLog=vertifyMailService.reSendVertifyMail(new_student);
 		}
 		else {
 			baseLog.setStatus("1");
