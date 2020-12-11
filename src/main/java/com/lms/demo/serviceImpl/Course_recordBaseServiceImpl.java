@@ -67,6 +67,12 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 				return course_recordLog;
 			}
 			
+			if(course.getMaxnumber()<=course.getNow_student_number()) {
+				course_recordLog.setStatus("1");
+				course_recordLog.setMessage("課程人數已滿");
+				return course_recordLog;
+			}
+			
 		
 		}
 		course_recordLog.setStatus("0");
@@ -107,6 +113,8 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 			course_recordLog.setStatus("0");
 			course_recordLog.setMessage("已刪除課程");
 			course_recordLog.setCourse_record(results.get(0));
+			course_recordLog.setCourse(course);
+			course_recordLog.setStudent(student);
 			course_recordRepository.delete(results.get(0));
 			return course_recordLog;
 		}

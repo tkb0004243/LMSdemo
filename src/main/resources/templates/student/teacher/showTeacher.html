@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<!-- 載入共用資源 -->
+<head><title>教師資料</title></head>
+<head th:include="student/load/css/baseCss ::baseCss"></head>
+
+<body class="no-skin">
+	<div th:include="student/load/header :: header"></div>
+
+	<div class="main-container ace-save-state" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.loadState('main-container')
+			} catch (e) {
+			}
+		</script>
+
+		<div id="sidebar"
+			class="sidebar                  responsive                    ace-save-state">
+			<script type="text/javascript">
+				try {
+					ace.settings.loadState('sidebar')
+				} catch (e) {
+				}
+			</script>
+
+			<div th:include="student/load/left :: left"></div>
+
+
+
+			<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+				<i id="sidebar-toggle-icon"
+					class="ace-icon fa fa-angle-double-left ace-save-state"
+					data-icon1="ace-icon fa fa-angle-double-left"
+					data-icon2="ace-icon fa fa-angle-double-right"></i>
+			</div>
+			
+		<form id="mainForm" >
+		<input type="hidden" id="teacher_id" name="teacher_id">
+		<input type="hidden" id="course_id" name="course_id">
+		
+		
+		</form>
+		</div>
+		
+		
+	
+		<div class="main-content">
+			<div class="main-content-inner">
+				<!-- PAGE CONTENT BEGINS -->
+				<div class="row">
+					<div class="col-xs-12">
+						<table id="simple-table" class="table  table-bordered table-hover">
+							<caption>老師名單</caption>
+							<thead>
+								<tr>
+									<th>老師ID</th>
+									<th>老師名字</th>
+									<th>電子郵件</th>
+									
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr th:each="teacher:${search_result}">
+									<td th:text="${teacher.teacher_id}"></td>
+									<td th:text="${teacher.name}"></td>
+									<td th:text="${teacher.email}"></td>
+									
+									<td><button th:onclick="toContent([[${teacher.teacher_id}]])">查看開課名單</button></td>
+								</tr>		
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- /.page-content -->
+				<div class="row">
+					<div class="col-xs-12" th:if="${course_search!=null}" th:object="${course_search}">
+						<table id="simple-table" class="table  table-bordered table-hover">
+							<caption ><span th:text="${course_search.get('teacher_name')}"></span>授課名單</caption>
+							<thead>
+								<tr>
+									<th>課程ID</th>
+									<th>課程名稱</th>
+									<th>開始日期</th>
+									<th>結業日期</th>
+									<th>開始時間</th>
+
+									<th>結束時間</th>
+									<th>最大修課人數</th>
+									<th>最小修課人數</th>
+									<th>課程介紹</th>
+									<th>創建者</th>
+									<th>創建時間</th>
+								</tr>
+							</thead>
+
+							<tbody th:if="${course_search!=null}">
+
+
+								<tr th:each="course:${course_search.get('courses')}">
+									<td th:text="${course.course_id}"></td>
+									<td th:text="${course.name}"></td>
+									<td th:text="${course.startdate}"></td>
+									<td th:text="${course.enddate}"></td>
+									<td th:text="${course.starttime}"></td>
+									<td th:text="${course.endtime}"></td>
+									<td th:text="${course.maxnumber}"></td>
+									<td th:text="${course.minnumber}"></td>
+									<td th:text="${course.introduce}"></td>
+									<td th:text="${course.create_by}"></td>
+									<td th:text="${course.create_time}"></td>
+									<td><button
+											th:onclick="chooseCourse([[${course.course_id}]])">選課</button></td>
+								</tr>
+
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- /.main-content -->
+
+		<div class="footer">
+			<div class="footer-inner">
+				<div class="footer-content">
+					<span class="bigger-120"> <span class="blue bolder">Ace</span>
+						Application &copy; 2013-2014
+					</span> &nbsp; &nbsp; <span class="action-buttons"> <a href="#">
+							<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+					</a> <a href="#"> <i
+							class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+					</a> <a href="#"> <i
+							class="ace-icon fa fa-rss-square orange bigger-150"></i>
+					</a>
+					</span>
+				</div>
+			</div>
+
+			<a href="#" id="btn-scroll-up"
+				class="btn-scroll-up btn btn-sm btn-inverse"> <i
+				class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div>
+		<!-- /.main-container -->
+	</div>
+	<!-- 載入共用資源 -->
+<body th:include="student/load/js/baseJs ::baseJs"></body>
+
+<script type="text/javascript">
+	function chooseCourse(id){
+		$("#course_id").val()=id;
+		$("#mainForm").attr("action","/student/courserecord/add");
+		$("#mainForm").attr("method","post");
+		$("#mainForm").submit();
+	}
+		
+	function toContent(teacher_id){
+		$("#teacher_id").val()=teacher_id;
+		$("#mainForm").attr("action","/student/teacher/search");
+		$("#mainForm").attr("method","post");
+		$("#mainForm").submit();
+	}
+		
+</script>
+</body>
+</html>

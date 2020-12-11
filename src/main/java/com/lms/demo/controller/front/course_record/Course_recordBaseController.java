@@ -69,7 +69,10 @@ public class Course_recordBaseController {
 			new_Course_record.setStudent_id(student.getStudent_id());
 			new_Course_record.setCreate_by(student.getName());
 			course_recordLog.setMessage("選課成功");
+			Course new_course=course_recordLog.getCourse();
+			new_course.setNow_student_number(new_course.getNow_student_number()+1); //現有選課人數+1
 			course_recordRepository.save(new_Course_record);
+			courseRepository.save(new_course);
 		}
 	
 		
@@ -90,6 +93,9 @@ public class Course_recordBaseController {
 		course_recordLog=course_recordBaseService.delete(student, course);
 		
 		if("0".equals(course_recordLog.getStatus())) {
+			Course new_course=course_recordLog.getCourse();
+			new_course.setNow_student_number(new_course.getNow_student_number()-1);
+			courseRepository.save(new_course); //課程現有人數-1
 			course_recordLog.setMessage("課程刪除成功");
 			
 		}

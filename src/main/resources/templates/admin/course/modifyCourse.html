@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+      
+      
+      
+	 <!-- 載入共用資源 -->
+	 <head><title>課程修改</title></head>
+	<head th:include="admin/load/css/baseCss ::baseCss"></head>
+	
+	
+	<body class="no-skin">
+	<div th:include="admin/load/header :: header"></div>
+	<div class="main-container ace-save-state" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.loadState('main-container')}catch(e){}
+			</script>
+
+			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+				<script type="text/javascript">
+					try{ace.settings.loadState('sidebar')}catch(e){}
+				</script>
+
+			<div th:include="admin/load/left :: left"></div>
+			
+			
+			
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
+			</div>
+
+			<div class="main-content">
+				<div class="main-content-inner">
+					<!-- PAGE CONTENT BEGINS -->
+							<div class="row">
+								<div class="col-xs-12" th:object="${modify_course}">
+									<form class="form-horizontal" role="form" action="/backstage/course/modify/save" method="post" onsubmit="return makeCourse_Form_Check()">
+									<div class="form-group">
+										<input type="hidden" id="course_id"  class="col-xs-10 col-sm-5"  th:field="*{course_id}"  />
+										<input type="hidden" id="create_time"  class="col-xs-10 col-sm-5"  th:field="*{create_time}"  />
+										<input type="hidden" id="now_student_number"  class="col-xs-10 col-sm-5"  th:field="*{now_student_number}"  />
+										<input type="hidden" id="course_status"  class="col-xs-10 col-sm-5"  th:field="*{course_status}"  />
+										<input type="hidden" id="create_by"  class="col-xs-10 col-sm-5"  th:field="*{create_by}"  />
+										<input type="hidden" id="course_status"  class="col-xs-10 col-sm-5"  th:field="*{course_status}"  />
+										
+										<label class="col-sm-3 control-label no-padding-right" for="name">課程名稱</label>
+										<div class="col-sm-9">
+										
+											<input type="text" id="name"  class="col-xs-10 col-sm-5"  th:field="*{name}"  />
+										</div>
+									</div>
+									
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="startdate">課程開始日期/結束日期</label>
+										<div class="col-sm-4">
+											<input type="date" id="startdate" class="col-xs-10 col-sm-5"  onchange="checkenddate()" th:field="*{startdate}"/>
+											<input type="date" id="enddate" class="col-xs-10 col-sm-5"  onchange="checkenddate()"  th:field="*{enddate}"/>
+										</div>
+									</div>
+									
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="coursetime">上課時段/下課時段</label>
+
+										<div class="col-sm-4">
+											<input type="time" id="starttime" class="col-xs-10 col-sm-5" th:field="*{starttime}"  onchange="checkendtime()" />
+											<input type="time" id="endtime"  class="col-xs-10 col-sm-5" th:field="*{endtime}" onchange="checkendtime()" />
+										</div>
+									</div>
+									
+									
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="studentnumber">最大人數/最小人數</label>
+
+										<div class="col-sm-4">
+											<input type="number" id="maxnumber" class="col-xs-10 col-sm-5" th:field="*{maxnumber}" onchange="checkminnumber()"/>
+											<input type="number" id="minnumber"  class="col-xs-10 col-sm-5" th:field="*{minnumber}"  onchange="checkminnumber()" />
+										</div>
+									</div>
+									
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="courseintroduce">課程介紹</label>
+
+										<div class="col-sm-9">
+											<input type="text" id="introduce" class="col-xs-10 col-sm-5" th:field="*{introduce}" />
+										</div>
+									</div>
+								<button type="submit">送出修改</button>
+									</form>
+								</div>
+					</div><!-- /.page-content -->
+				</div>
+			</div><!-- /.main-content -->
+
+			<div class="footer">
+				<div class="footer-inner">
+					<div class="footer-content">
+					
+					</div>
+			</div>
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+</div>
+			
+
+		
+
+	<!-- 載入共用資源 -->
+		<body th:include="admin/load/js/baseJs ::baseJs"></body>
+		
+		<script type="text/javascript">
+		var checkenddate_point=false;
+      	var checkminnumber_point=false;
+      	var checkpoint_endtime=false;
+
+      //驗證後日日期是否早於前日
+        function checkenddate(){
+          let strDate=new Date(document.getElementById("startdate").value);
+          let endDate=new Date(document.getElementById("enddate").value);
+          
+          
+          
+       if(endDate.valueOf()>strDate.valueOf()){
+    	   checkenddate_point=true;
+    	   return
+       }
+       checkenddate_point=false;
+       
+      }
+      //驗證開課人數下限<上限
+      function checkminnumber(){
+        let maxnum=parseInt(document.getElementById("maxnumber").value);
+        let minnum=parseInt(document.getElementById("minnumber").value);
+        
+     
+        if(maxnum>minnum){
+        	checkminnumber_point=true;
+        	return
+        }
+        checkminnumber_point=false;
+
+      }
+      
+      function checkendtime(){
+    	  let starttime=document.getElementById("starttime").value;
+    	  let endtime=document.getElementById("endtime").value;
+    	  
+    	  let str_hour=parseInt(starttime.substring(0,2));
+    	  let str_minute=parseInt(starttime.substring(3,5));
+    	  let end_hour=parseInt(endtime.substring(0,2));
+    	  let end_minute=parseInt(endtime.substring(3,5));
+    	  
+    	  
+    	  if(str_hour<end_hour){
+    		  checkpoint_endtime=true;
+    		  return
+    	  }
+    	  else if(str_hour==end_hour&&str_minute<end_minute){
+    		  checkpoint_endtime=true;
+    		  return
+    	  }
+    		  checkpoint_endtime=false;
+    	  
+    	
+      }
+
+      //表單確認
+      function makeCourse_Form_Check(){
+    	  checkenddate();
+    	  checkminnumber();
+    	  checkendtime();
+    	  
+    	  if(checkenddate_point==false){
+    		  alert("請確認日期");
+    		  return false;
+    	  }
+    	  
+    	  else if(checkminnumber_point==false){
+    		  alert("請確認人數");
+    		  return false;
+    	  }
+    	  
+    	  else if(checkpoint_endtime==false){
+    		  alert("請確認時間");
+    		  return false;
+    	  }
+    	 
+    	  return true
+   
+      }
+		</script>
+
+</body>
+</html>

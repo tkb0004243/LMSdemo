@@ -5,6 +5,7 @@
 
 
 <!-- 載入共用資源 -->
+ <head><title>搜尋課程</title></head>
 <head th:include="admin/load/css/baseCss ::baseCss"></head>
 
 <body class="no-skin">
@@ -61,6 +62,7 @@
 											<th class="hidden-480">選課人數上限/下限</th>
 
 											<th>課程介紹</th>
+											<th>課程現選課人數</th>
 											<th>課程創建者</th>
 											<th class="hidden-480">課程修改</th>
 
@@ -71,7 +73,7 @@
 
 										<tr>
 											<td style="display: none">
-												<form id="mainForm" method="post" th:object="${course}">
+												<form id="mainForm" method="post" >
 													<input type="hidden" id="form_course_id" name="course_id"/>
 
 												</form>
@@ -90,7 +92,9 @@
 
 											<td><span id="course_introduce"
 												th:text="${course.introduce}"></span></td>
-
+												
+											<td><span id="course_now_student_number"
+												th:text="${course.now_student_number}"></span></td>
 
 											<td><span id="course_create_by"
 												th:text="${course.create_by}"></span></td>
@@ -98,7 +102,7 @@
 											<td>
 												<div class="hidden-sm hidden-xs btn-group">
 
-													<button class="btn btn-xs btn-info" id="modifyCourse">
+													<button class="btn btn-xs btn-info" id="modifyCourse" th:onclick="modifyCourse([[${course.course_id}]])">
 														<i class="ace-icon fa fa-pencil bigger-120"></i>
 													</button>
 
@@ -142,6 +146,14 @@
 			mainForm.method="post";
 			mainForm.submit();   
 
+		}
+		
+		function modifyCourse(id){
+			let mainForm = document.getElementById("mainForm");
+			document.getElementById("form_course_id").value=id;
+			mainForm.action="/backstage/course/modify";
+			mainForm.method="post";
+			mainForm.submit();  
 		}
 	</script>
 </body>

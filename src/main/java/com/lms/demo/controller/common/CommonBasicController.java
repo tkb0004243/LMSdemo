@@ -30,13 +30,13 @@ public class CommonBasicController {
 				return "/admin/path";
 			}
 			model.addAttribute("system_message", logoutLog);
-			model.addAttribute("path", "student/login/go");
+			model.addAttribute("path", "student/login");
 			
 			return "/student/path";
 			
 		}
 		else {
-			return "/student/login/go";
+			return "/student/login";
 		}
 		}
 		

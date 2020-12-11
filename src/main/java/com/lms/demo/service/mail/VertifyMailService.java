@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import javax.mail.MessagingException;
 
+import com.lms.demo.model.Course;
 import com.lms.demo.model.Student;
 import com.lms.demo.model.Teacher;
 import com.lms.demo.model.log.BaseLog;
@@ -20,6 +21,6 @@ public interface VertifyMailService {
 	
 	BaseLog reSendVertifyMail(Student student) throws MessagingException; //將student從資料庫裡撈出,然後更正
 	
-	
+	BaseLog sendDeleteCourseToStudent(Student student,Course course);
 	
 }

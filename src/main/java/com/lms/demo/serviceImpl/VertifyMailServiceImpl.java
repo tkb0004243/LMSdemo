@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.lms.demo.model.Course;
 import com.lms.demo.model.Student;
 import com.lms.demo.model.Teacher;
 import com.lms.demo.model.log.BaseLog;
@@ -167,6 +168,44 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 		return baseLog;
 		
 		
+	}
+
+
+	@Override
+	public BaseLog sendDeleteCourseToStudent(Student student,Course course) {
+		BaseLog baseLog=new BaseLog();
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setFrom("digitalken1127@gmail.com");
+			helper.setTo(student.getEmail());
+			helper.setSubject("LMS平台-"+course.getName()+"取消通知");
+			helper.setText(
+					"<!DOCTYPE html>"
+					 +"<html>" 
+					 +"<body>" 
+					 +"<h1>課程取消通知</h1>"
+					 +"<p>不好意思,您在LMS平台選取的課程"
+					 + course.getName()
+					 + "因故取消"
+					 + "</p>"
+					 + "</body>"
+					 + "</html>",
+					true);
+			mailSender.send(mimeMessage);
+			baseLog.setStatus("0");
+			baseLog.setMessage("課程取消信已寄送,請查閱");
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			baseLog.setStatus("1");
+			baseLog.setMessage("課程取消信寄送失敗");
+			
+		}
+		return baseLog;
+		
+	
 	}	
 
 	

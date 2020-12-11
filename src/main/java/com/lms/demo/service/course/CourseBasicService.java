@@ -1,5 +1,6 @@
 package com.lms.demo.service.course;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.lms.demo.model.Course;
@@ -9,11 +10,15 @@ import com.lms.demo.model.log.CourseLog;
 
 public interface CourseBasicService {
 
-	public CourseLog checkCourse(Course newcourse);
+	public CourseLog checkAddCourse(Course newcourse);
 	
 	public BaseLog addCourse(CourseLog courseAddLog,Teacher teacher);
 	
-	public BaseLog deleteCourse(Integer course_id);
+	public CourseLog deleteCourse(Course delete_course);
+	
+	public CourseLog checkDeleteCourse(Course delete_course)  throws ParseException;
+	
+	public CourseLog sendLetterToDeleteCourseStudent(Course delete_course);
 	
 	public List<Course> searchAllCourse();
 }
