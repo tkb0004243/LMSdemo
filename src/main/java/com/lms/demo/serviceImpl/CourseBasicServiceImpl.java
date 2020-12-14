@@ -19,8 +19,10 @@ import com.lms.demo.model.Student;
 import com.lms.demo.model.Teacher;
 import com.lms.demo.model.log.BaseLog;
 import com.lms.demo.model.log.CourseLog;
+import com.lms.demo.model.log.SendMailToStudentLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
+import com.lms.demo.repository.SendMailToStudentLogRepository;
 import com.lms.demo.repository.StudentRepository;
 import com.lms.demo.service.course.CourseBasicService;
 import com.lms.demo.service.mail.VertifyMailService;
@@ -41,6 +43,9 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 	
 	@Autowired
 	VertifyMailService vertifyMailService;
+	
+	@Autowired
+	SendMailToStudentLogRepository sendMailToStudentLogRepository;
 	
 	
 	
@@ -71,6 +76,7 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 			
 			courseAddLog.getCourse().setCreate_by(teacher.getName());
 			courseAddLog.getCourse().setNow_student_number(0);
+			courseAddLog.getCourse().setCourse_status("0");
 			courseRepository.save(courseAddLog.getCourse());
 			return courseAddLog;
 		}
@@ -89,13 +95,23 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 		CourseLog courseLog=new CourseLog();
 		
 		try {
-			courseRepository.delete(delete_course);
-			course_recordRepository.deleteByCourse_id(delete_course.getCourse_id());
+			delete_course.setCourse_status("1");
+			delete_course.setNow_student_number(0); //將課程現有選課人數直接歸零
+			List<Course_record> course_records=course_recordRepository.findByCourse_id(delete_course.getCourse_id());
+			List<Course_record> modify_course_records=course_records.stream().map(record->{
+				record.setStatus("1");
+				return record;
+					
+			}).collect(Collectors.toList());
+			
+			course_recordRepository.saveAll(modify_course_records);//將改完結果存回course_record
+			courseRepository.save(delete_course);
 			courseLog.setStatus("0");
 			courseLog.setMessage("課程成功刪除");
 			courseLog.setCourse(delete_course);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			courseLog.setStatus("1");
 			courseLog.setMessage("課程刪除失敗");
 		}
@@ -126,27 +142,22 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 	public CourseLog sendLetterToDeleteCourseStudent(Course delete_course) {
 		
 		CourseLog courseLog=new CourseLog();
-		List<Integer> ids=new ArrayList<Integer>();
+		
 		List<Course_record> resultsCourse_records=course_recordRepository.findByCourse_id(delete_course.getCourse_id()); //撈出選課紀錄中與欲刪除課程有關紀錄
-		ids=resultsCourse_records.stream().map(records->records.getStudent_id()).collect(Collectors.toList());
-		List<Student> students=studentRepository.findAllById(ids);
+		
+		List<Student> students=resultsCourse_records.stream().map(course_records->course_records.getStudent()).collect(Collectors.toList());
 		if(students!=null&&students.size()>0) {
 			for(Student student:students) {
-				BaseLog mailsend_result=vertifyMailService.sendDeleteCourseToStudent(student, delete_course);
-				if("1".equals(String.valueOf(mailsend_result.getStatus()))) {
-					
-					courseLog.setStatus("1");
-					courseLog.setMessage("信件寄給學生失敗！");
-					break;
-				}
-				else {
-					
-					courseLog.setStatus("0");
-					courseLog.setMessage("信件寄送學生成功！");
-				}
+				SendMailToStudentLog sendMailToStudentLog=new SendMailToStudentLog();
+				sendMailToStudentLog.setCreate_by("TKB0004243"); //系統創建
+				sendMailToStudentLog.setStatus("0");
+				sendMailToStudentLog.setStudent(student);
+				sendMailToStudentLog.setCourse(delete_course);
+				sendMailToStudentLogRepository.save(sendMailToStudentLog);
 				
 			}
-			
+			courseLog.setStatus("0");
+			courseLog.setMessage("學生已登錄進寄信名單");
 			return courseLog;
 		}
 		
@@ -154,6 +165,34 @@ public class CourseBasicServiceImpl implements CourseBasicService {
 		courseLog.setMessage("無學生選此課程");
 		
 		return courseLog;
+	}
+
+	@Override
+	public CourseLog relaunchCourse(Course relaunch_course) {
+		CourseLog courseLog=new CourseLog();
+		try {
+			relaunch_course.setCourse_status("0");
+			
+			courseRepository.save(relaunch_course); //將課程的course_status改成"0"存入table
+			
+			courseLog.setStatus("0");
+			courseLog.setMessage("課程重新上架成功");
+			courseLog.setCourse(relaunch_course);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			courseLog.setStatus("1");
+			courseLog.setMessage("課程重新上架失敗");
+		}
+		return courseLog;
+		
+		
+		
+		
+		
+		
+		
+	
 	}
 
 }

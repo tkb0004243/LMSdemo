@@ -20,7 +20,7 @@ public class StudentLoginServiceImpl implements StudentLoginService {
 	public LoginLog checkLogin(String account, String password) {
 		LoginLog studentLoginLog=new LoginLog();
 		List<Student> result=studentRepository.findByEmail(account);
-		if(result!=null)
+		if(result!=null&&result.size()>0)
 		{
 			if(result.get(0).getPassword().equals(password)) //驗證密碼
 			{

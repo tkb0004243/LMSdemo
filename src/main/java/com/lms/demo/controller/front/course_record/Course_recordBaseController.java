@@ -50,7 +50,8 @@ public class Course_recordBaseController {
 	
 	@PostMapping("/courserecord/add")
 	public String add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
-		Optional<Course> course=courseRepository.findById(course_id);
+		Optional<Course> courseOptional=courseRepository.findById(course_id);
+		Course course=courseOptional.orElse(new Course());
 		Course_recordLog course_recordLog=new Course_recordLog();
 		Course_record new_Course_record=new Course_record();
 		Student student=new Student();
@@ -59,14 +60,14 @@ public class Course_recordBaseController {
 			student=loginLog.getStudent();
 		}
 	
-		if(course.isPresent()) {
-			course_recordLog=course_recordBaseService.checkAddCourseRecord(student, course.get());
-		}
+		
+		course_recordLog=course_recordBaseService.checkAddCourseRecord(student, course);
+		
 		
 		if(course_recordLog.getStatus()!=null&&"0".equals(course_recordLog.getStatus())) {
 			new_Course_record.setStatus("0");
-			new_Course_record.setCourse_id(course_id);
-			new_Course_record.setStudent_id(student.getStudent_id());
+			new_Course_record.setCourse(course);
+			new_Course_record.setStudent(student);
 			new_Course_record.setCreate_by(student.getName());
 			course_recordLog.setMessage("選課成功");
 			Course new_course=course_recordLog.getCourse();

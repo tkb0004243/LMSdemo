@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.lms.demo.model.Teacher;
 
 
-@SpringBootTest
+@SpringBootTest(classes = DemoApplication.class)
 public class TestGetClassName {
 
 	@Test

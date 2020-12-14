@@ -11,7 +11,7 @@ public interface Course_recordBaseService {
 	
 	public Course_recordLog add(Student student,Course course);
 	
-	public List<Optional<Course>> getStudentChooseCourse(Student student);
+	public List<Course> getStudentChooseCourse(Student student);
 	
 	public Course_recordLog checkAddCourseRecord(Student student,Course course); 
 	//調查是否有學生是否有重複選課

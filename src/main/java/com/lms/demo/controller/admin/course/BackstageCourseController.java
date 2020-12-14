@@ -29,6 +29,7 @@ import com.lms.demo.service.mail.VertifyMailService;
 
 
 
+
 @Controller
 @RequestMapping(value="/backstage/course")
 public class BackstageCourseController {
@@ -87,17 +88,17 @@ public class BackstageCourseController {
 	}
 	
 	@PostMapping("/delete")
-	public String delete(Model model,HttpSession session,HttpServletRequest request) throws ParseException {
+	public String delete(Model model,HttpSession session,HttpServletRequest request,@RequestParam(value="course_id")String course_id) throws ParseException {
 		CourseLog courseLog=new CourseLog();
-		String course_id=request.getParameter("course_id");
 		Integer int_course_id=Integer.parseInt(course_id);
-		Optional<Course> delete_course=courseRepository.findById(int_course_id);
-		if(delete_course.isPresent()) {
-			courseLog=courseBasicService.checkDeleteCourse(delete_course.get());
+		Optional<Course> delete_courseOptional=courseRepository.findById(int_course_id);
+		Course delete_course=delete_courseOptional.orElse(null);
+		if(delete_course!=null) {
+			courseLog=courseBasicService.checkDeleteCourse(delete_course);
 			if("0".equals(String.valueOf(courseLog.getStatus()))) {
-				courseLog=courseBasicService.sendLetterToDeleteCourseStudent(delete_course.get());
+				courseLog=courseBasicService.sendLetterToDeleteCourseStudent(delete_course);
 				if("0".equals(String.valueOf(courseLog.getStatus()))) {
-					courseLog=courseBasicService.deleteCourse(delete_course.get());
+					courseLog=courseBasicService.deleteCourse(delete_course);
 				}
 			}	
 		}
@@ -152,6 +153,25 @@ public class BackstageCourseController {
 		model.addAttribute("system_message", courseLog);
 		model.addAttribute("path", "/backstage/course/search");
 		return "admin/path";
+		
+		
+	}
+	
+	@PostMapping("/relaunch")
+	public String relaunch(@RequestParam(value="course_id")String course_id_string,HttpSession swssion,Model model) {
+		Integer course_id=Integer.valueOf(course_id_string);
+		
+		Optional<Course> courseOptional=courseRepository.findById(course_id);
+		Course relaunch_course=courseOptional.orElse(new Course());
+		CourseLog courseLog=courseBasicService.relaunchCourse(relaunch_course);
+		
+		model.addAttribute("system_message", courseLog);
+		model.addAttribute("path","/backstage/course/search");
+		
+		return "/admin/path";
+		
+		
+		
 		
 		
 	}

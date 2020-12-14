@@ -20,5 +20,8 @@ public interface CourseBasicService {
 	
 	public CourseLog sendLetterToDeleteCourseStudent(Course delete_course);
 	
+	public CourseLog relaunchCourse(Course relaunch_course);
+	
+	
 	public List<Course> searchAllCourse();
 }

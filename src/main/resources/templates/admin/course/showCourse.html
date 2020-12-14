@@ -64,6 +64,7 @@
 											<th>課程介紹</th>
 											<th>課程現選課人數</th>
 											<th>課程創建者</th>
+											<th>課程狀態</th>
 											<th class="hidden-480">課程修改</th>
 
 										</tr>
@@ -98,6 +99,11 @@
 
 											<td><span id="course_create_by"
 												th:text="${course.create_by}"></span></td>
+												
+											<td th:switch="${course.course_status}">
+											<span id="course_course_status" th:case="0">正常</span>
+											<span id="course_course_status" th:case="1">課程取消</span>
+											</td>
 
 											<td>
 												<div class="hidden-sm hidden-xs btn-group">
@@ -106,9 +112,14 @@
 														<i class="ace-icon fa fa-pencil bigger-120"></i>
 													</button>
 
-													<button class="btn btn-xs btn-danger" id="deleteCourse"
+													<button class="btn btn-xs btn-danger" id="deleteCourse" th:if="${course.course_status=='0'}"
 														th:onclick="deleteCourse([[${course.course_id}]])">
 														<i class="ace-icon fa fa-trash-o bigger-120"></i>
+													</button>
+													
+													<button class="btn btn-xs btn-danger" id="Course" th:if="${course.course_status=='1'}"
+														th:onclick="relaunchCourse([[${course.course_id}]])">
+														<i class="ace-icon fa fa-book bigger-120"></i>
 													</button>
 												</div>
 											</td>
@@ -137,8 +148,11 @@
 		</div>
 		<!-- /.main-container -->
 	</div>
+	
+<body th:include="admin/load/js/baseJs ::baseJs"></body>
 
 	<script>
+	$(function(){
 		function deleteCourse(id) {
 			let mainForm = document.getElementById("mainForm");
 			document.getElementById("form_course_id").value=id;
@@ -155,6 +169,16 @@
 			mainForm.method="post";
 			mainForm.submit();  
 		}
+		
+		function relaunchCourse(id){
+			let mainForm = document.getElementById("mainForm");
+			document.getElementById("form_course_id").value=id;
+			mainForm.action="/backstage/course/relaunch";
+			mainForm.method="post";
+			mainForm.submit();  
+		}
+		console.log($("#mainForm"))
+	});
 	</script>
 </body>
 </html>

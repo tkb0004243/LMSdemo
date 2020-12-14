@@ -2,16 +2,25 @@ package com.lms.demo.model;
 
 
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.lms.demo.model.log.SendMailToStudentLog;
+
+import lombok.Data;
+
 @Entity
 @Table(name="student")
+@Data
 public class Student {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -56,6 +65,12 @@ public class Student {
 	private String vertify_code;
 	
 	
+	@OneToMany(mappedBy = "student")
+	private List<Course_record> course_records;
+	
+	@OneToMany(mappedBy = "student")
+	private List<SendMailToStudentLog> sendMailToStudentLogs;
+	
 
 	public Student(Integer student_id, String email, String password, String name, String birthday, String authorities,
 			String status, String create_time, String update_time, String create_by, String update_by,
@@ -78,110 +93,6 @@ public class Student {
 
 	public Student() {
 		super();
-	}
-
-	public Integer getStudent_id() {
-		return student_id;
-	}
-
-	public void setStudent_id(Integer student_id) {
-		this.student_id = student_id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-
-	public String getAuthorities() {
-		return authorities;
-	}
-
-	public void setAuthorities(String authorities) {
-		this.authorities = authorities;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getCreate_time() {
-		return create_time;
-	}
-
-	public void setCreate_time(String create_time) {
-		this.create_time = create_time;
-	}
-
-	public String getUpdate_time() {
-		return update_time;
-	}
-
-	public void setUpdate_time(String update_time) {
-		this.update_time = update_time;
-	}
-
-	public String getCreate_by() {
-		return create_by;
-	}
-
-	public void setCreate_by(String create_by) {
-		this.create_by = create_by;
-	}
-
-	public String getUpdate_by() {
-		return update_by;
-	}
-
-	public void setUpdate_by(String update_by) {
-		this.update_by = update_by;
-	}
-
-	public String getVertify_email_time() {
-		return vertify_email_time;
-	}
-
-	public void setVertify_email_time(String vertify_email_time) {
-		this.vertify_email_time = vertify_email_time;
-	}
-
-	public String getVertify_code() {
-		return vertify_code;
-	}
-
-	public void setVertify_code(String vertify_code) {
-		this.vertify_code = vertify_code;
 	}
 
 	

@@ -7,8 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name="teacher")
+@Data
 public class Teacher {
 
 	@Id
@@ -68,100 +71,5 @@ public class Teacher {
 		super();
 	}
 
-	public Integer getTeacher_id() {
-		return teacher_id;
-	}
-
-	public void setTeacher_id(Integer teacher_id) {
-		this.teacher_id = teacher_id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getAuthorities() {
-		return authorities;
-	}
-
-	public void setAuthorities(String authorities) {
-		this.authorities = authorities;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getCreate_by() {
-		return create_by;
-	}
-
-	public void setCreate_by(String create_by) {
-		this.create_by = create_by;
-	}
-
-	public String getCreate_time() {
-		return create_time;
-	}
-
-	public void setCreate_time(String create_time) {
-		this.create_time = create_time;
-	}
-
-	public String getUpdate_by() {
-		return update_by;
-	}
-
-	public void setUpdate_by(String update_by) {
-		this.update_by = update_by;
-	}
-
-	public String getUpdate_time() {
-		return update_time;
-	}
-
-	public void setUpdate_time(String update_time) {
-		this.update_time = update_time;
-	}
-
-	public String getVertify_time() {
-		return vertify_time;
-	}
-
-	public void setVertify_time(String vertify_time) {
-		this.vertify_time = vertify_time;
-	}
-
-	public String getVertify_code() {
-		return vertify_code;
-	}
-
-	public void setVertify_code(String vertify_code) {
-		this.vertify_code = vertify_code;
-	}
 	
 }

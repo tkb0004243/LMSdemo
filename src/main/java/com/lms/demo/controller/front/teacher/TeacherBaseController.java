@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +15,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lms.demo.model.Course;
+import com.lms.demo.model.Course_record;
+import com.lms.demo.model.Student;
 import com.lms.demo.model.Teacher;
 import com.lms.demo.model.log.BaseLog;
+import com.lms.demo.model.log.LoginLog;
 import com.lms.demo.repository.CourseRepository;
+import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.repository.TeacherRepository;
 
 @Controller
@@ -28,6 +36,9 @@ public class TeacherBaseController {
 	
 	@Autowired
 	CourseRepository courseRepository;
+	
+	@Autowired
+	Course_recordRepository course_recordRepository;
 	
 	
 	
@@ -48,37 +59,39 @@ public class TeacherBaseController {
 	}
 	
 	@PostMapping("/search")
-	public String search(@RequestParam(value="teacher_id") String teacher_id_string,Model model) {
-		BaseLog baseLog=new BaseLog();
-		Map<String, Object> course_search=new HashMap<String, Object>();
-		
-		Integer teacher_id=Integer.valueOf(teacher_id_string);
-		Teacher teacher =new Teacher();
-		
-		if(teacher_id!=null) {
-			Optional<Teacher> teacherOptional=teacherRepository.findById(teacher_id);
-			if(teacherOptional.isPresent()) {
-				 teacher=teacherOptional.get();
-				 course_search.put("teacher_name", teacher.getName());
-				 List<Course> courses=courseRepository.findByCreate_by(teacher.getName());
-				if(courses!=null) {
-					course_search.put("courses", courses);
-				}
-				else {
-					course_search.put("courses", null);
-				}
-				
-				model.addAttribute("course_search", course_search);
-				return "/student/teacher/showTeacher";
-			}
+	@ResponseBody
+	public Map<String, Object> search(@RequestParam(value="teacher_name") String teacher_name,Model model,HttpSession session) {
+		LoginLog loginLog=(LoginLog) session.getAttribute("user_information");
+		Student student=new Student();
+		if(loginLog!=null) {
+			student=loginLog.getStudent();
 		}
-		baseLog.setStatus("1");
-		baseLog.setMessage("查無資料");
-		model.addAttribute("system_message", baseLog);
-		model.addAttribute("path", "/student/teacher/search");
-		return "student/path";
+		Map<String, Object> results=new HashMap<String, Object>();
+		
+		List<Course> courses=courseRepository.findByCreate_by(teacher_name);
 		
 		
+		List<Course_record>you_choosecourse_records=course_recordRepository.findByStudent_id(student.getStudent_id());
+		
+		/*
+		 * List<Course> already_choose=you_choosecourse_records.stream().
+		 * filter(records->"0".equals(records.getStatus())&&teacher_name
+		 * .equals(records.getCourse().getCreate_by()))
+		 * .map(records->records.getCourse()).collect(Collectors.toList());
+		 * 
+		 * List<Course>
+		 * not_choose=courses.stream().filter(course->!already_choose.contains(course)).
+		 * collect(Collectors.toList());
+		 */
+		
+	
+		results.put("not_choose", you_choosecourse_records); 
+		results.put("already_choose",  courses);	
+		
+		
+		return results;
+	
 	}
+	
 
 }

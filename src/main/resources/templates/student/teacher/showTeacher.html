@@ -5,11 +5,14 @@
 <!-- 載入共用資源 -->
 <head><title>教師資料</title></head>
 <head th:include="student/load/css/baseCss ::baseCss"></head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 
 <body class="no-skin">
+<!-- 載入共用資源 -->
+<body th:include="student/load/js/baseJs ::baseJs"></body>
 	<div th:include="student/load/header :: header"></div>
 
-	<div class="main-container ace-save-state" id="main-container">
+	 <div class="main-container ace-save-state" id="main-container">
 		<script type="text/javascript">
 			try {
 				ace.settings.loadState('main-container')
@@ -24,7 +27,7 @@
 					ace.settings.loadState('sidebar')
 				} catch (e) {
 				}
-			</script>
+			</script> 
 
 			<div th:include="student/load/left :: left"></div>
 
@@ -38,8 +41,8 @@
 			</div>
 			
 		<form id="mainForm" >
-		<input type="hidden" id="teacher_id" name="teacher_id">
-		<input type="hidden" id="course_id" name="course_id">
+		<input type="hidden" id="teacher_id" name="teacher_id" value="">
+		<input type="hidden" id="course_id" name="course_id" value="">
 		
 		
 		</form>
@@ -66,10 +69,10 @@
 							<tbody>
 								<tr th:each="teacher:${search_result}">
 									<td th:text="${teacher.teacher_id}"></td>
-									<td th:text="${teacher.name}"></td>
+									<td id="teacher_name" th:text="${teacher.name}"></td>
 									<td th:text="${teacher.email}"></td>
 									
-									<td><button th:onclick="toContent([[${teacher.teacher_id}]])">查看開課名單</button></td>
+									<td><button id="toContentButton" >查看開課名單</button></td>
 								</tr>		
 							</tbody>
 						</table>
@@ -79,7 +82,7 @@
 				<div class="row">
 					<div class="col-xs-12" th:if="${course_search!=null}" th:object="${course_search}">
 						<table id="simple-table" class="table  table-bordered table-hover">
-							<caption ><span th:text="${course_search.get('teacher_name')}"></span>授課名單</caption>
+							<caption ><span th:text="${course_search.get('teacher_name')}"></span>老師的課程資料</caption>
 							<thead>
 								<tr>
 									<th>課程ID</th>
@@ -97,9 +100,7 @@
 								</tr>
 							</thead>
 
-							<tbody th:if="${course_search!=null}">
-
-
+							<tbody >
 								<tr th:each="course:${course_search.get('courses')}">
 									<td th:text="${course.course_id}"></td>
 									<td th:text="${course.name}"></td>
@@ -150,22 +151,53 @@
 		<!-- /.main-container -->
 	</div>
 	<!-- 載入共用資源 -->
-<body th:include="student/load/js/baseJs ::baseJs"></body>
+
+
 
 <script type="text/javascript">
-	function chooseCourse(id){
-		$("#course_id").val()=id;
+$(function(){ 
+	/*  function chooseCourse(id){
+		document.getElementById("course_id").value=id;
 		$("#mainForm").attr("action","/student/courserecord/add");
 		$("#mainForm").attr("method","post");
 		$("#mainForm").submit();
-	}
+	}  */
 		
-	function toContent(teacher_id){
-		$("#teacher_id").val()=teacher_id;
-		$("#mainForm").attr("action","/student/teacher/search");
-		$("#mainForm").attr("method","post");
-		$("#mainForm").submit();
-	}
+	$("#toContentButton").click(function(){
+		$.ajax({
+			  url:'http://172.16.131.55:8080/student/teacher/search',
+			  method:'post',
+			  dataType:'json',
+			  data:{"teacher_name":$("#teacher_name").text()},
+			  success:function(res)
+			  {
+				 console.log(res);
+				  
+				  },
+				  
+			  error:function(err)
+			  {
+				  alert("ajax請求錯誤");
+				  
+				  }
+			})
+	})
+	
+		 
+		
+		
+		 
+		
+	
+	
+	
+	
+	
+	
+	
+	
+ }); 
+	
 		
 </script>
 </body>

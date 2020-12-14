@@ -167,7 +167,7 @@
 <body th:include="student/load/js/baseJs ::baseJs"></body>
 
 <script type="text/javascript">
-	
+$(function(){	
 		
 		function addcourse(course_id) {
 			
@@ -184,7 +184,7 @@ function deletecourse(course_id) {
 			$("#mainForm").attr("method","post");
 			$("#mainForm").submit();	
 		}
-
+});
 </script>
 </body>
 </html>

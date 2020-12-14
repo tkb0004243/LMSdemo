@@ -44,7 +44,7 @@ public class LoginController {
 		}
 		else {
 			model.addAttribute("system_message", studentLoginLog);
-			model.addAttribute("path", "student/login/studentLogin");
+			model.addAttribute("path", "/student/login");
 			return "/student/path";
 		}
 		

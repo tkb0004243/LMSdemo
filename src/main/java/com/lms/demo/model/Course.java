@@ -1,7 +1,10 @@
 package com.lms.demo.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,8 +12,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.lms.demo.model.log.SendMailToStudentLog;
+
+import lombok.Data;
+
 @Entity
 @Table(name="course")
+@Data
 public class Course {
 	
 	@Id
@@ -57,9 +65,16 @@ public class Course {
 	@Column(name="NOW_STUDENT_NUMBER")
 	private Integer now_student_number;
 	
-	@Column(name="COURSE_STATUS")
+	@Column(name="COURSE_STATUS")   //0:正常開課 1：教師已取消課程 2：課程進行中 3：課程已經完結
 	private String course_status;
 	
+	
+	
+	@OneToMany(mappedBy = "course")
+	private List<Course_record> course_records;
+	
+	@OneToMany(mappedBy = "course")
+	private List<SendMailToStudentLog> sendMailToStudentLogs;
 	
 
 	
@@ -67,135 +82,5 @@ public class Course {
 	public Course() {
 		super();
 	}
-
-	public Integer getCourse_id() {
-		return course_id;
-	}
-
-	public void setCourse_id(Integer course_id) {
-		this.course_id = course_id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getStartdate() {
-		return startdate;
-	}
-
-	public void setStartdate(String startdate) {
-		this.startdate = startdate;
-	}
-
-	public String getStarttime() {
-		return starttime;
-	}
-
-	public void setStarttime(String starttime) {
-		this.starttime = starttime;
-	}
-
-	public String getEnddate() {
-		return enddate;
-	}
-
-	public void setEnddate(String enddate) {
-		this.enddate = enddate;
-	}
-
-	public Integer getMaxnumber() {
-		return maxnumber;
-	}
-
-	public void setMaxnumber(Integer maxnumber) {
-		this.maxnumber = maxnumber;
-	}
-
-	public Integer getMinnumber() {
-		return minnumber;
-	}
-
-	public void setMinnumber(Integer minnumber) {
-		this.minnumber = minnumber;
-	}
-
-	public String getIntroduce() {
-		return introduce;
-	}
-
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
-	}
-
-	public String getCreate_by() {
-		return create_by;
-	}
-
-	public void setCreate_by(String create_by) {
-		this.create_by = create_by;
-	}
-
-	public String getUpdate_by() {
-		return update_by;
-	}
-
-	public void setUpdate_by(String update_by) {
-		this.update_by = update_by;
-	}
-
-	public String getCreate_time() {
-		return create_time;
-	}
-
-	public void setCreate_time(String create_time) {
-		this.create_time = create_time;
-	}
-
-	public String getUpdate_time() {
-		return update_time;
-	}
-
-	public void setUpdate_time(String update_time) {
-		this.update_time = update_time;
-	}
-
-	public String getEndtime() {
-		return endtime;
-	}
-
-	public void setEndtime(String endtime) {
-		this.endtime = endtime;
-	}
-
-	public Integer getNow_student_number() {
-		return now_student_number;
-	}
-
-	public void setNow_student_number(Integer now_student_number) {
-		this.now_student_number = now_student_number;
-	}
-
-	public String getCourse_status() {
-		return course_status;
-	}
-
-	public void setCourse_status(String course_status) {
-		this.course_status = course_status;
-	}
-
-	
-	
-	
-
-	
-	
-	
-	
-	
 
 }

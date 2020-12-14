@@ -1,7 +1,4 @@
-package com.lms.demo.model;
-
-
-import java.util.List;
+package com.lms.demo.model.log;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,30 +10,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
+import com.lms.demo.model.Course;
+import com.lms.demo.model.Student;
 
 import lombok.Data;
 
-
 @Entity
-@Table(name="course_record")
+@Table(name="send_mail_log")
 @Data
-public class Course_record {
-
+public class SendMailToStudentLog {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="COURSE_RECORD_ID")
-	private Integer course_record_id;
+	@Column(name="LOG_ID")
+	private Integer log_id;
 	
+	@Column(name="STATUS") //0:尚未寄信 1：已經寄信
+	private String status;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="STUDENT_ID")
-	private Student student;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="COURSE_ID")
-	private Course course;
-	
+	@Column(name="MESSAGE")
+	private String message;
 	
 	@Column(name="CREATE_BY")
 	private String create_by;
@@ -50,16 +43,12 @@ public class Course_record {
 	@Column(name="UPDATE_TIME")
 	private String update_time;
 	
-	@Column(name="STATUS")   //設定 '0' 已選課 '1'取消選課 '2'課程已上完
-	private String status;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="STUDENT_ID")
+	private Student student;
 	
-	
-	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="COURSE_ID")
+	private Course course;
 
-	public Course_record() {
-		
-	}
-	
-	
-	
 }

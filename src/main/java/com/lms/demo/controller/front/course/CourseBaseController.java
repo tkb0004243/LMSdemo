@@ -48,19 +48,18 @@ public class CourseBaseController {
 	
 	@GetMapping("/search")
 	public String search(Model model,HttpSession session) {
-		List<Course> search_result=courseRepository.findAll();
+		List<Course> coursecanchoose=courseRepository.findCourseCanChoose();
 		
 		LoginLog studentLoginLog=(LoginLog) session.getAttribute("user_information");
-		List<Optional<Course>> get_course_record=course_recordBaseService.getStudentChooseCourse(studentLoginLog.getStudent());
+		List<Course> choose_course=course_recordBaseService.getStudentChooseCourse(studentLoginLog.getStudent());
 		
-		if(get_course_record!=null&&get_course_record.size()>0) {
-		List<Course> choose_result=get_course_record.stream().filter(course->course.isPresent()).map(course->course.get()).collect(Collectors.toList());
-		search_result=search_result.stream().filter(result->!choose_result.contains(result)).collect(Collectors.toList()); //過濾掉已經在choose_courses的課程
+		if(choose_course!=null&&choose_course.size()>0) {
+			coursecanchoose=coursecanchoose.stream().filter(result->!choose_course.contains(result)).collect(Collectors.toList()); //過濾掉已經在choose_courses的課程
 		
-		model.addAttribute("choose_result",choose_result);
+		model.addAttribute("choose_result",choose_course);
 		
 		}
-		model.addAttribute("search_result",search_result);
+		model.addAttribute("search_result",coursecanchoose);
 		return "student/course/showCourse";
 		
 		

@@ -86,19 +86,14 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 
 
 	@Override
-	public List<Optional<Course>> getStudentChooseCourse(Student student) {
-		List<Optional<Course>> result=new ArrayList<Optional<Course>>();
-		Integer student_id=student.getStudent_id();
-		List<Course_record> searchs=course_recordRepository.findByStudent_id(student_id);
+	public List<Course> getStudentChooseCourse(Student student) {
+		List<Course_record> searchs=course_recordRepository.findByStudent_id(student.getStudent_id());
 		if(searchs!=null&&searchs.size()>0) {
-			for( Course_record record :searchs) {
-				Optional<Course> course=courseRepository.findById(record.getCourse_id());
-				result.add(course);
-				
-			}
-			return result;
+			List<Course> results=searchs.stream().filter(search->search.getCourse()!=null&&"0".equals(String.valueOf(search.getStatus()))).map(search->search.getCourse()).collect(Collectors.toList());
+		return results;
 		}
 		return null;
+		
 	
 
 }
