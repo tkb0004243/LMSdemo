@@ -1,5 +1,6 @@
 package com.lms.demo.serviceImpl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import com.lms.demo.model.log.Course_recordLog;
 import com.lms.demo.repository.CourseRepository;
 import com.lms.demo.repository.Course_recordRepository;
 import com.lms.demo.service.course_record.Course_recordBaseService;
+import com.lms.demo.util.ReturnTodayAndTargetGapDay;
 
 @Service
 public class Course_recordBaseServiceImpl implements Course_recordBaseService {
@@ -49,9 +51,31 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 	
 
 	@Override 
-	public Course_recordLog checkAddCourseRecord(Student student, Course course) { 
+	public Course_recordLog checkAddCourseRecord(Student student, Course course) throws ParseException { 
 		Course_recordLog course_recordLog=new Course_recordLog();
 		List<Course_record> results=course_recordRepository.findByCourseIDAndStudentID(course.getCourse_id(),student.getStudent_id());
+		
+		if(ReturnTodayAndTargetGapDay.getGapDay(course.getStartdate())<0) {
+			System.out.println("date"+ReturnTodayAndTargetGapDay.getGapDay(course.getStartdate()));
+			course_recordLog.setStatus("1");
+			course_recordLog.setMessage("課程人數已開課");
+			return course_recordLog;
+		}
+		else if(course.getMaxnumber()<=course.getNow_student_number()) {
+			course_recordLog.setStatus("1");
+			course_recordLog.setMessage("課程人數已滿");
+			return course_recordLog;
+		}
+		
+		else if(!"0".equals(course.getCourse_status())) { //課程狀態為不可以選擇
+			course_recordLog.setStatus("1");
+			course_recordLog.setMessage("課程狀態為不可選擇");
+			return course_recordLog;
+		}
+		
+		
+		
+		
 		if(results!=null&&results.size()>0) {
 			for(Course_record record : results) {
 				if(record.getCourse_record_id().equals(course.getCourse_id())) { //與學生已選取的課程重複
@@ -60,21 +84,9 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 					return course_recordLog;
 				}
 			}
-			
-			if(!"0".equals(course.getCourse_status())) { //課程狀態為不可以選擇
-				course_recordLog.setStatus("1");
-				course_recordLog.setMessage("課程狀態為不可選擇");
-				return course_recordLog;
-			}
-			
-			if(course.getMaxnumber()<=course.getNow_student_number()) {
-				course_recordLog.setStatus("1");
-				course_recordLog.setMessage("課程人數已滿");
-				return course_recordLog;
-			}
-			
-		
 		}
+		
+		
 		course_recordLog.setStatus("0");
 		course_recordLog.setMessage("此課程可以選擇");
 		course_recordLog.setStudent(student);
@@ -101,10 +113,19 @@ public class Course_recordBaseServiceImpl implements Course_recordBaseService {
 
 
 	@Override
-	public Course_recordLog delete(Student student, Course course) {
+	public Course_recordLog delete(Student student, Course course) throws ParseException {
 		Course_recordLog course_recordLog=new Course_recordLog();
 		List<Course_record> results=course_recordRepository.findByStudent_idAndCourse_id(student.getStudent_id(), course.getCourse_id());
+		
+		if(ReturnTodayAndTargetGapDay.getGapDay(course.getStartdate())<3) {
+			course_recordLog.setStatus("1");
+			course_recordLog.setMessage("距離開課日小於三天");
+			return course_recordLog;
+		}
+		
+		
 		if(results!=null&&results.size()>0) {
+			
 			course_recordLog.setStatus("0");
 			course_recordLog.setMessage("已刪除課程");
 			course_recordLog.setCourse_record(results.get(0));

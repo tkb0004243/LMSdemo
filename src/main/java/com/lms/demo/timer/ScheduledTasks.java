@@ -15,7 +15,7 @@ import com.lms.demo.service.timer.DailyTimerService;
 @Component
 public class ScheduledTasks {
 	
-	private static final String CRON_SCHEDILED_STRING=" 0 13 12 * * ? "; //每日12:05執行一次
+	private static final String CRON_SCHEDILED_STRING=" 0 30 10 * * ? "; //每日10:30執行一次
 	
 	@Autowired
 	DailyTimerService dailyTimerService;

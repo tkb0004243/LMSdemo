@@ -15,6 +15,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 
 
@@ -28,11 +31,12 @@ public class Course_record {
 	@Column(name="COURSE_RECORD_ID")
 	private Integer course_record_id;
 	
-	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="STUDENT_ID")
 	private Student student;
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="COURSE_ID")
 	private Course course;

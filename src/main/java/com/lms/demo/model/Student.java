@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lms.demo.model.log.SendMailToStudentLog;
 
 import lombok.Data;
@@ -64,10 +66,11 @@ public class Student {
 	@Column(name="VERTIFY_CODE") //儲存要比對的驗證碼
 	private String vertify_code;
 	
-	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "student")
 	private List<Course_record> course_records;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "student")
 	private List<SendMailToStudentLog> sendMailToStudentLogs;
 	

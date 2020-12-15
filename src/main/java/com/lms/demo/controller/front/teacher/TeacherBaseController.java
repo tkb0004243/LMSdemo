@@ -73,20 +73,21 @@ public class TeacherBaseController {
 		
 		List<Course_record>you_choosecourse_records=course_recordRepository.findByStudent_id(student.getStudent_id());
 		
-		/*
-		 * List<Course> already_choose=you_choosecourse_records.stream().
-		 * filter(records->"0".equals(records.getStatus())&&teacher_name
-		 * .equals(records.getCourse().getCreate_by()))
-		 * .map(records->records.getCourse()).collect(Collectors.toList());
-		 * 
-		 * List<Course>
-		 * not_choose=courses.stream().filter(course->!already_choose.contains(course)).
-		 * collect(Collectors.toList());
-		 */
+		
+		  List<Course> already_choose=you_choosecourse_records.stream().
+		  filter(records->"0".equals(records.getStatus())&&teacher_name
+		  .equals(records.getCourse().getCreate_by()))
+		  .map(records->records.getCourse()).collect(Collectors.toList());
+		  
+		  List<Course> not_choose=courses.stream()
+		  .filter(course->!already_choose.contains(course))
+		  .collect(Collectors.toList());
+		  
+		 
 		
 	
-		results.put("not_choose", you_choosecourse_records); 
-		results.put("already_choose",  courses);	
+		results.put("not_choose", not_choose); 
+		results.put("already_choose", already_choose);	
 		
 		
 		return results;

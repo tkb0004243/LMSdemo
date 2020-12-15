@@ -115,11 +115,14 @@ public class VertifyMailServiceImpl implements VertifyMailService {
 	public SignUpLog checkReturnVertifyMail(String student_email, String vertifycode) throws ParseException {
 		SignUpLog studentSignUpLog=new SignUpLog();
 		List<Student> result=studentRepository.findByEmail(student_email);
-		if(result!=null) {
+		if(result!=null&&result.size()>0) {
+			
 			Student result_stu=result.get(0);
 			String trans_str=result_stu.getVertify_email_time();
+			
 			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date ver_date=sdf.parse(trans_str);
+			
 			Date today=new Date();
 			long from=today.getTime();
 			long to=ver_date.getTime();

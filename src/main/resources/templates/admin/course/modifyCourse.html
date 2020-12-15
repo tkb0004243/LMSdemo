@@ -40,7 +40,6 @@
 										<input type="hidden" id="course_id"  class="col-xs-10 col-sm-5"  th:field="*{course_id}"  />
 										<input type="hidden" id="create_time"  class="col-xs-10 col-sm-5"  th:field="*{create_time}"  />
 										<input type="hidden" id="now_student_number"  class="col-xs-10 col-sm-5"  th:field="*{now_student_number}"  />
-										<input type="hidden" id="course_status"  class="col-xs-10 col-sm-5"  th:field="*{course_status}"  />
 										<input type="hidden" id="create_by"  class="col-xs-10 col-sm-5"  th:field="*{create_by}"  />
 										<input type="hidden" id="course_status"  class="col-xs-10 col-sm-5"  th:field="*{course_status}"  />
 										
@@ -86,7 +85,8 @@
 										<label class="col-sm-3 control-label no-padding-right" for="courseintroduce">課程介紹</label>
 
 										<div class="col-sm-9">
-											<input type="text" id="introduce" class="col-xs-10 col-sm-5" th:field="*{introduce}" />
+										<textarea rows="5" cols="50" id="introduce_show" onchange="introduce_show_onchange()"></textarea>
+											<input type="hidden" id="introduce" class="col-xs-10 col-sm-5" th:field="*{introduce}" />
 										</div>
 									</div>
 								<button type="submit">送出修改</button>
@@ -195,6 +195,23 @@
     	  return true
    
       }
+      document.getElementById("introduce_show").value=document.getElementById("introduce").value;
+      
+      
+      
+      function introduce_show_onchange(){
+    	  let introduce=document.getElementById("introduce");
+    	  let introduce_show=document.getElementById("introduce_show");
+    	  
+    	  introduce.value=introduce_show.value;
+      }
+      
+      
+     
+     
+      
+     
+     
 		</script>
 
 </body>

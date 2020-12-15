@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lms.demo.model.Course;
 import com.lms.demo.model.Student;
 
@@ -43,10 +45,13 @@ public class SendMailToStudentLog {
 	@Column(name="UPDATE_TIME")
 	private String update_time;
 	
+	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="STUDENT_ID")
 	private Student student;
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="COURSE_ID")
 	private Course course;

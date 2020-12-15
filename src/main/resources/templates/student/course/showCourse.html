@@ -166,10 +166,10 @@
 	<!-- 載入共用資源 -->
 <body th:include="student/load/js/baseJs ::baseJs"></body>
 
-<script type="text/javascript">
-$(function(){	
-		
-		function addcourse(course_id) {
+<script type="text/javascript" th:inline="javascript">
+	
+		console.log($("#mainForm"));
+function addcourse(course_id) {
 			
 			document.getElementById("course_id").value=course_id;
 			$("#mainForm").attr("action","/student/courserecord/add");
@@ -184,7 +184,7 @@ function deletecourse(course_id) {
 			$("#mainForm").attr("method","post");
 			$("#mainForm").submit();	
 		}
-});
+
 </script>
 </body>
 </html>

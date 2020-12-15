@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lms.demo.model.log.SendMailToStudentLog;
 
 import lombok.Data;
@@ -69,10 +70,11 @@ public class Course {
 	private String course_status;
 	
 	
-	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "course")
 	private List<Course_record> course_records;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "course")
 	private List<SendMailToStudentLog> sendMailToStudentLogs;
 	

@@ -1,5 +1,6 @@
 package com.lms.demo.controller.front.course_record;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class Course_recordBaseController {
 	
 	
 	@PostMapping("/courserecord/add")
-	public String add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
+	public String add(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) throws ParseException {
 		Optional<Course> courseOptional=courseRepository.findById(course_id);
 		Course course=courseOptional.orElse(new Course());
 		Course_recordLog course_recordLog=new Course_recordLog();
@@ -75,6 +76,7 @@ public class Course_recordBaseController {
 			course_recordRepository.save(new_Course_record);
 			courseRepository.save(new_course);
 		}
+		
 	
 		
 		
@@ -86,7 +88,7 @@ public class Course_recordBaseController {
 	}
 	
 	@PostMapping("/courserecord/delete")
-	public String delete(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) {
+	public String delete(Model model,HttpSession session,@RequestParam(name="course_id")Integer course_id) throws ParseException {
 		Course_recordLog course_recordLog=new Course_recordLog();
 		LoginLog loginLog=(LoginLog) session.getAttribute("user_information");
 		Course course=courseRepository.findById(course_id).get();

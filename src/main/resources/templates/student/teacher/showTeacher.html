@@ -80,9 +80,9 @@
 				</div>
 				<!-- /.page-content -->
 				<div class="row">
-					<div class="col-xs-12" th:if="${course_search!=null}" th:object="${course_search}">
+					<div class="col-xs-12" >
 						<table id="simple-table" class="table  table-bordered table-hover">
-							<caption ><span th:text="${course_search.get('teacher_name')}"></span>老師的課程資料</caption>
+							<caption >你已選擇<span id="teacher_name"></span>的課程</caption>
 							<thead>
 								<tr>
 									<th>課程ID</th>
@@ -100,29 +100,44 @@
 								</tr>
 							</thead>
 
-							<tbody >
-								<tr th:each="course:${course_search.get('courses')}">
-									<td th:text="${course.course_id}"></td>
-									<td th:text="${course.name}"></td>
-									<td th:text="${course.startdate}"></td>
-									<td th:text="${course.enddate}"></td>
-									<td th:text="${course.starttime}"></td>
-									<td th:text="${course.endtime}"></td>
-									<td th:text="${course.maxnumber}"></td>
-									<td th:text="${course.minnumber}"></td>
-									<td th:text="${course.introduce}"></td>
-									<td th:text="${course.create_by}"></td>
-									<td th:text="${course.create_time}"></td>
-									<td><button
-											th:onclick="chooseCourse([[${course.course_id}]])">選課</button></td>
-								</tr>
-
+							<tbody id="already_choose">
+							
+							
 							</tbody>
 
 						</table>
 					</div>
 				</div>
+				
+				
+				<div class="row">
+					<div class="col-xs-12">
+						<table id="simple-table" class="table  table-bordered table-hover">
+							<caption >你尚未選擇<span id="teacher_name2" ></span>的課程</caption>
+							<thead>
+								<tr>
+									<th>課程ID</th>
+									<th>課程名稱</th>
+									<th>開始日期</th>
+									<th>結業日期</th>
+									<th>開始時間</th>
 
+									<th>結束時間</th>
+									<th>最大修課人數</th>
+									<th>最小修課人數</th>
+									<th>課程介紹</th>
+									<th>創建者</th>
+									<th>創建時間</th>
+								</tr>
+							</thead>
+
+							<tbody id="not_choose">
+								
+							</tbody>
+
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!-- /.main-content -->
@@ -154,16 +169,17 @@
 
 
 
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 $(function(){ 
-	/*  function chooseCourse(id){
+	  function chooseCourse(id){
 		document.getElementById("course_id").value=id;
 		$("#mainForm").attr("action","/student/courserecord/add");
 		$("#mainForm").attr("method","post");
 		$("#mainForm").submit();
-	}  */
+	}  
+	  
 		
-	$("#toContentButton").click(function(){
+	$("#toContentButton").one('click',function(){
 		$.ajax({
 			  url:'http://172.16.131.55:8080/student/teacher/search',
 			  method:'post',
@@ -171,9 +187,52 @@ $(function(){
 			  data:{"teacher_name":$("#teacher_name").text()},
 			  success:function(res)
 			  {
-				 console.log(res);
-				  
-				  },
+				
+				for(i=0;i<res['already_choose'].length;i++){
+					
+				$("#already_choose").append
+				(
+					'<tr>'
+					+'<td>'+res['already_choose'][i].course_id+'</td>'
+					+'<td>'+res['already_choose'][i].name+'</td>'
+					+'<td>'+res['already_choose'][i].startdate+'</td>'
+					+'<td>'+res['already_choose'][i].enddate+'</td>'
+					+'<td>'+res['already_choose'][i].starttime+'</td>'
+					+'<td>'+res['already_choose'][i].endtime+'</td>'
+					+'<td>'+res['already_choose'][i].maxnumber+'</td>'
+					+'<td>'+res['already_choose'][i].minnumber+'</td>'
+					+'<td>'+res['already_choose'][i].introduce+'</td>'
+					+'<td>'+res['already_choose'][i].create_by+'</td>'
+					+'<td>'+res['already_choose'][i].create_time+'</td>'
+					+'<td>'+'<button id="toDelete">'+'取消'+'</button>'+'</td>'
+					+'</tr>'
+				
+				
+				)
+				}
+				
+				
+				for(let j=0;j<res['not_choose'].length;j++){
+				 $("#not_choose").append(
+							'<tr>'
+							+'<td>'+res['not_choose'][j].course_id+'</td>'
+							+'<td>'+res['not_choose'][j].name+'</td>'
+							+'<td>'+res['not_choose'][j].startdate+'</td>'
+							+'<td>'+res['not_choose'][j].enddate+'</td>'
+							+'<td>'+res['not_choose'][j].starttime+'</td>'
+							+'<td>'+res['not_choose'][j].endtime+'</td>'
+							+'<td>'+res['not_choose'][j].maxnumber+'</td>'
+							+'<td>'+res['not_choose'][j].minnumber+'</td>'
+							+'<td>'+res['not_choose'][j].introduce+'</td>'
+							+'<td>'+res['not_choose'][j].create_by+'</td>'
+							+'<td>'+res['not_choose'][j].create_time+'</td>'
+							+'<td>'+'<button id="toChoose">'+'選課'+'</button>'+'</td>'
+							+'</tr>'		 
+				 )
+				 
+				  }
+				
+			  },
 				  
 			  error:function(err)
 			  {
@@ -181,6 +240,15 @@ $(function(){
 				  
 				  }
 			})
+			
+			
+			
+			
+			
+			
+			
+			
+			
 	})
 	
 		 

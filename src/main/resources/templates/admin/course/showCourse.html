@@ -152,7 +152,7 @@
 <body th:include="admin/load/js/baseJs ::baseJs"></body>
 
 	<script>
-	$(function(){
+	
 		function deleteCourse(id) {
 			let mainForm = document.getElementById("mainForm");
 			document.getElementById("form_course_id").value=id;
@@ -177,8 +177,8 @@
 			mainForm.method="post";
 			mainForm.submit();  
 		}
-		console.log($("#mainForm"))
-	});
+		
+	
 	</script>
 </body>
 </html>

@@ -23,66 +23,78 @@
 
 			<div th:include="admin/load/left :: left"></div>
 			
+			<div style="display:none">
+			<form id="mainForm" onsubmit="return makeCourse_Form_Check()">
 			
+			<input type="hidden" id="name" name="name">
+			<input type="hidden" id="startdate" name="startdate" >
+			<input type="hidden" id="enddate" name="enddate" >
+			<input type="hidden" id="starttime" name="starttime">
+			<input type="hidden" id="endtime" name="endtime">
+			<input type="hidden" id="maxnumber" name="maxnumber" >
+			<input type="hidden" id="minnumber" name="minnumber" onchange="checkminnumber()">
+			<input type="hidden" id="introduce" name="introduce">
+			
+			</form>
+			
+			
+			
+			
+			</div>
 			
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
 					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
 				</div>
 			</div>
+			
+			
+										
 
 			<div class="main-content">
 				<div class="main-content-inner">
 					<!-- PAGE CONTENT BEGINS -->
 							<div class="row">
 								<div class="col-xs-12">
-									<form class="form-horizontal" role="form" action="/backstage/course/add" method="post" onsubmit="return makeCourse_Form_Check()">
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="name">課程名稱</label>
-										<div class="col-sm-9">
-											<input type="text" id="name" placeholder="課程名稱" class="col-xs-10 col-sm-5" name="name" />
-										</div>
-									</div>
-									
-									
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="startdate">課程開始日期/結束日期</label>
-										<div class="col-sm-4">
-											<input type="date" id="startdate" class="col-xs-10 col-sm-5" name="startdate" onchange="checkenddate()" />
-											<input type="date" id="enddate" class="col-xs-10 col-sm-5" name="enddate" onchange="checkenddate()"  />
-										</div>
-									</div>
-									
-									
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="coursetime">上課時段/下課時段</label>
+								
+								<table id="simple-table"
+									class="table  table-bordered table-hover">
+									<thead>
+										<tr>
 
-										<div class="col-sm-4">
-											<input type="time" id="starttime" class="col-xs-10 col-sm-5" name="starttime" onchange="checkendtime()" />
-											<input type="time" id="endtime"  class="col-xs-10 col-sm-5" name="endtime" onchange="checkendtime()" />
-										</div>
-									</div>
-									
-									
-									
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="studentnumber">最大人數/最小人數</label>
+											<th>課程名稱</th>
+											<th>修課期間</th>
+											<th>選課人數上限</th>
+											<th>選課人數下限</th>
+											<th>課程開始時間</th>
+											<th>課程結束時間</th>
+											<th>課程介紹</th>
+											
 
-										<div class="col-sm-4">
-											<input type="number" id="maxnumber" class="col-xs-10 col-sm-5" name="maxnumber" onchange="checkminnumber()"/>
-											<input type="number" id="minnumber"  class="col-xs-10 col-sm-5" name="minnumber"  onchange="checkminnumber()" />
-										</div>
-									</div>
-									
-									
-									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="courseintroduce">課程介紹</label>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><input type="text" id="show_name"></input></td>
 
-										<div class="col-sm-9">
-											<input type="text" id="introduce" class="col-xs-10 col-sm-5" name="introduce" />
-										</div>
-									</div>
-								<button type="submit">送出</button>
-									</form>
+											<td>
+											<input type="date" id="show_startdate" onchange="checkenddate()"></input>~
+											<input type="date" id="show_enddate" onchange="checkenddate()"></input>
+											</td>
+								
+											<td><input type="number" id="show_maxnumber" onchange="checkminnumber()"></input></td>							
+											<td><input type="number" id="show_minnumber" onchange="checkminnumber()"></input></td>
+											
+											<td><input type="time" id="show_starttime"  onchange="checkendtime()"></td>
+											<td><input type="time" id="show_endtime"  onchange="checkendtime()"></td>
+											<td><textarea id="show_introduce" rows="4" cols="20"></textarea></td>
+								</tr>
+							
+								</tbody>
+							
+								</table>
+									<button id="mainForm_submit" onclick="addCourse_click()">創建課程</button>
+								
+									
 								</div>
 					</div><!-- /.page-content -->
 				</div>
@@ -115,8 +127,8 @@
 
       //驗證後日日期是否早於前日
         function checkenddate(){
-          let strDate=new Date(document.getElementById("startdate").value);
-          let endDate=new Date(document.getElementById("enddate").value);
+          let strDate=new Date(document.getElementById("show_startdate").value);
+          let endDate=new Date(document.getElementById("show_enddate").value);
           
           
           
@@ -129,8 +141,8 @@
       }
       //驗證開課人數下限<上限
       function checkminnumber(){
-        let maxnum=parseInt(document.getElementById("maxnumber").value);
-        let minnum=parseInt(document.getElementById("minnumber").value);
+        let maxnum=parseInt(document.getElementById("show_maxnumber").value);
+        let minnum=parseInt(document.getElementById("show_minnumber").value);
         
      
         if(maxnum>minnum){
@@ -142,8 +154,8 @@
       }
       
       function checkendtime(){
-    	  let starttime=document.getElementById("starttime").value;
-    	  let endtime=document.getElementById("endtime").value;
+    	  let starttime=document.getElementById("show_starttime").value;
+    	  let endtime=document.getElementById("show_endtime").value;
     	  
     	  let str_hour=parseInt(starttime.substring(0,2));
     	  let str_minute=parseInt(starttime.substring(3,5));
@@ -187,6 +199,45 @@
     	 
     	  return true
    
+      }
+      
+      function addCourse_click(){
+    	  //使用者輸入區塊
+    	let show_name=document.getElementById("show_name");  
+    	let show_startdate=document.getElementById("show_startdate");  
+    	let show_enddate=document.getElementById("show_enddate"); 
+    	let show_starttime=document.getElementById("show_starttime"); 
+    	let show_endtime=document.getElementById("show_endtime"); 
+    	let show_maxnumber=document.getElementById("show_maxnumber");  
+    	let show_minnumber=document.getElementById("show_minnumber"); 
+    	let show_introduce=document.getElementById("show_introduce"); 
+    	
+    	//mainForm區塊
+    	let name=document.getElementById("name");
+    	let startdate=document.getElementById("startdate");
+    	let enddate=document.getElementById("enddate");
+    	let starttime=document.getElementById("starttime");
+    	let endtime=document.getElementById("endtime");
+    	let minnumber=document.getElementById("minnumber");
+    	let maxnumber=document.getElementById("maxnumber");
+    	let introduce=document.getElementById("introduce");
+    	
+    	//注值
+    	name.value=show_name.value;;
+    	startdate.value=show_startdate.value;
+    	enddate.value=show_enddate.value;
+    	starttime.value=show_starttime.value;
+    	endtime.value=show_endtime.value;
+    	minnumber.value=show_minnumber.value;
+    	maxnumber.value=show_maxnumber.value;
+    	introduce.value=show_introduce.value;
+    	
+    	  
+    	$("#mainForm").attr("action","/backstage/course/add");
+    	$("#mainForm").attr("method","post");
+    	$("#mainForm").submit();
+    	  
+    	  
       }
 
 
